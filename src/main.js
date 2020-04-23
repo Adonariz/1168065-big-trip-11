@@ -308,12 +308,6 @@ const renderComponent = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const renderManyComponents = (container, template, place, amount = EVENTS_AMOUNT) => {
-  for (let i = 0; i < amount; i++) {
-    renderComponent(container, template, place);
-  }
-};
-
 const tripMain = document.querySelector(`.trip-main`);
 const tripEvents = document.querySelector(`.trip-events`);
 
@@ -341,4 +335,6 @@ renderComponent(day, createEventsContainer());
 
 const eventsContainer = document.querySelector(`.trip-events__list`);
 
-renderManyComponents(eventsContainer, createEventTemplate());
+for (let i = 0; i < EVENTS_AMOUNT; i++) {
+  renderComponent(eventsContainer, createEventTemplate());
+}
