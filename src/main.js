@@ -37,11 +37,11 @@ const daysContainer = tripEvents.querySelector(`.trip-days`);
 
 renderComponent(daysContainer, createDayTemplate());
 
-const day = document.querySelector(`.day`);
+const day = daysContainer.querySelector(`.day`);
 
 renderComponent(day, createEventsContainer());
 
-const eventsContainer = document.querySelector(`.trip-events__list`);
+const eventsContainer = day.querySelector(`.trip-events__list`);
 
 for (let i = 0; i < EVENTS_AMOUNT; i++) {
   renderComponent(eventsContainer, createEventTemplate());
