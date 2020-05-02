@@ -3,12 +3,12 @@ import {createTripRouteTemplate} from "./components/page-header/trip-route";
 import {createTripCostTemplate} from "./components/page-header/trip-cost";
 import {createPageNavigationTemplate} from "./components/page-header/page-navigation";
 import {createTripFiltersTemplate} from "./components/page-header/trip-filter";
-import {createTripSortingTemplate} from "./components/sorting";
-import {createEventFormTemplate} from "./components/event-form";
-import {createDaysContainer} from "./components/days-container";
-import {createDayTemplate} from "./components/day";
-import {createEventsContainer} from "./components/events-container";
-import {createEventTemplate} from "./components/event";
+import {createTripSortingTemplate} from "./components/page-main/trip-sort";
+import {createEventFormTemplate} from "./components/page-main/trip-event-form";
+import {createDaysContainer} from "./components/page-main/trip-days-container";
+import {createDayTemplate} from "./components/page-main/trip-days";
+import {createEventsContainer} from "./components/page-main/trip-events-container";
+import {createEventTemplate} from "./components/page-main/trip-events";
 
 const EVENTS_AMOUNT = 3;
 
