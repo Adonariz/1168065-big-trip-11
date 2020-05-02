@@ -2,7 +2,7 @@ import {createTripInfoTemplate} from "./components/page-header/trip-info";
 import {createTripRouteTemplate} from "./components/page-header/trip-route";
 import {createTripCostTemplate} from "./components/page-header/trip-cost";
 import {createPageNavigationTemplate} from "./components/page-header/page-navigation";
-import {createTripFiltersTemplate} from "./components/page-header/page-filter";
+import {createTripFiltersTemplate} from "./components/page-header/trip-filter";
 import {createTripSortingTemplate} from "./components/sorting";
 import {createEventFormTemplate} from "./components/event-form";
 import {createDaysContainer} from "./components/days-container";
