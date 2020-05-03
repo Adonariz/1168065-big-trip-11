@@ -9,40 +9,84 @@ import {createDaysContainer} from "./components/page-main/trip-days-container";
 import {createDayTemplate} from "./components/page-main/trip-days";
 import {createEventsContainer} from "./components/page-main/trip-events-container";
 import {createEventTemplate} from "./components/page-main/trip-events";
+import {getRandomTripEvents} from "./mocks/events";
+import {getISOStringDate, getPassedDays} from "./helpers/utils";
 
-const EVENTS_AMOUNT = 3;
+const POINTS_COUNT = 15;
+const FORM_COUNT = 1;
+
+const getSortingEvents = (events) => {
+  return (
+    events.slice().sort((a, b) => a.date.start - b.date.start)
+  );
+};
+
+const randomEvents = getSortingEvents(getRandomTripEvents(POINTS_COUNT));
 
 const renderComponent = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
 const tripMain = document.querySelector(`.trip-main`);
-const tripEvents = document.querySelector(`.trip-events`);
-
-renderComponent(tripMain, createTripInfoTemplate(), `afterbegin`);
-
-const tripInfoContainer = tripMain.querySelector(`.trip-info`);
+const tripEventsContainer = document.querySelector(`.trip-events`);
 const tripControls = tripMain.querySelector(`.trip-controls`);
-const [firstTitle, secondTitle] = tripControls.querySelectorAll(`h2`);
 
-renderComponent(tripInfoContainer, createTripRouteTemplate());
-renderComponent(tripInfoContainer, createTripCostTemplate());
-renderComponent(firstTitle, createPageNavigationTemplate(), `afterend`);
-renderComponent(secondTitle, createTripFiltersTemplate(), `afterend`);
-renderComponent(tripEvents, createTripSortingTemplate());
-renderComponent(tripEvents, createEventFormTemplate());
-renderComponent(tripEvents, createDaysContainer());
+const renderTripInfo = () => {
+  const tripInfoContainer = tripMain.querySelector(`.trip-info`);
+  renderComponent(tripInfoContainer, createTripRouteTemplate());
+  renderComponent(tripInfoContainer, createTripCostTemplate());
+};
 
-const daysContainer = tripEvents.querySelector(`.trip-days`);
+const renderHeader = () => {
+  renderComponent(tripMain, createTripInfoTemplate(), `afterbegin`);
+  renderTripInfo();
+  renderComponent(tripControls.querySelector(`h2`), createPageNavigationTemplate());
+  renderComponent(tripControls, createTripFiltersTemplate());
+};
 
-renderComponent(daysContainer, createDayTemplate());
+const renderTripDaysContainer = () => {
+  renderComponent(tripEventsContainer.querySelector(`h2`), createTripSortingTemplate(), `afterend`);
+  renderComponent(tripEventsContainer, createDaysContainer());
+};
 
-const day = daysContainer.querySelector(`.day`);
+const renderTripDayItem = (event, count, eventsList) => {
+  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+  renderComponent(tripDaysContainer, createDayTemplate(event, count, eventsList));
+};
 
-renderComponent(day, createEventsContainer());
+const renderTripEventForm = (event) => {
+  renderComponent(tripEventsContainer.querySelector(`h2`), createEventFormTemplate(event), `afterend`);
+};
 
-const eventsContainer = day.querySelector(`.trip-events__list`);
+const renderTripEventItem = (container, event) => {
+  renderComponent(container, createEventTemplate(event));
+};
 
-for (let i = 0; i < EVENTS_AMOUNT; i++) {
-  renderComponent(eventsContainer, createEventTemplate());
-}
+const renderMain = (events) => {
+  renderTripEventForm(events[0], FORM_COUNT);
+  renderTripDaysContainer();
+
+  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+  const eventsArray = events.slice(1);
+  let daysPassed;
+  let startDateTime;
+  let previousDateTime;
+
+  for (let event of eventsArray) {
+    const currentDateTime = getISOStringDate(event.date.start).slice(0, 10);
+
+    if (previousDateTime === currentDateTime) {
+      const currentDateTimeElement = tripDaysContainer.querySelector(`[datetime="${currentDateTime}"]`);
+      console.log(currentDateTimeElement.parentElement.nextElementSibling);
+      renderTripEventItem(currentDateTimeElement.parentElement.nextElementSibling, event);
+    } else {
+      startDateTime = startDateTime ? startDateTime : currentDateTime;
+      daysPassed = daysPassed ? getPassedDays(startDateTime, currentDateTime) : 1;
+      renderTripDayItem(event, daysPassed, createEventsContainer(createEventTemplate(event)));
+      previousDateTime = currentDateTime;
+    }
+  }
+};
+
+renderHeader();
+renderMain(randomEvents);

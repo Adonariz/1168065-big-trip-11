@@ -1,5 +1,7 @@
-export const createDaysContainer = () => {
+export const createDaysContainer = (dayItems = ``) => {
   return (
-    `<ul class="trip-days"></ul>`
+    `<ul class="trip-days">
+      ${dayItems}
+    </ul>`
   );
 };

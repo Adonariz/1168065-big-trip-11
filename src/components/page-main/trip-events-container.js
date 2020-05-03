@@ -1,5 +1,7 @@
-export const createEventsContainer = () => {
+export const createEventsContainer = (eventItems = ``) => {
   return (
-    `<ul class="trip-events__list"></ul>`
+    `<ul class="trip-events__list">
+       ${eventItems}
+     </ul>`
   );
 };
