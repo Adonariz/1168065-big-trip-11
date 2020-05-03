@@ -1,9 +1,15 @@
-export const createDayTemplate = () => {
+import {getISOStringDate} from "../../helpers/utils";
+import {MONTH_NAMES} from "../../helpers/const";
+
+export const createDayTemplate = (event, count, eventList) => {
+  const {date} = event;
+
   return (
     `<li class="trip-days__item  day">
       <div class="day__info">
-        <span class="day__counter">1</span>
-        <time class="day__date" datetime="2019-03-18">MAR 18</time>
+        <span class="day__counter">${count}</span>
+        <time class="day__date" datetime="${getISOStringDate(date.start().slice(0, 10))}">${MONTH_NAMES[date.start.getMonth()]} ${date.start.getDay()}</time>
+      ${eventList}
       </div>
     </li>`
   );

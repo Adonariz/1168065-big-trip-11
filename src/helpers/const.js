@@ -1,3 +1,18 @@
+const MONTH_NAMES = [
+  `JAN`,
+  `FEB`,
+  `MAR`,
+  `APR`,
+  `MAY`,
+  `JUN`,
+  `JUL`,
+  `AUG`,
+  `SEP`,
+  `OCT`,
+  `NOV`,
+  `DEC`,
+];
+
 const transferTypes = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
 const activityTypes = [`check-in`, `sightseeing`, `restaurant`];
 
@@ -22,4 +37,12 @@ const offerItems = {
   'event-offer-train': `Travel by train`
 };
 
-export {transferTypes, activityTypes, eventTypes, offerItems};
+const offerPrices = {
+  'event-offer-luggage': 30,
+  'event-offer-comfort': 100,
+  'event-offer-meal': 15,
+  'event-offer-seats': 5,
+  'event-offer-train': 40
+};
+
+export {MONTH_NAMES, transferTypes, activityTypes, eventTypes, offerItems, offerPrices};
