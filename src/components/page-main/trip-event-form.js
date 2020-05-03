@@ -1,4 +1,4 @@
-import {transferTypes, activityTypes, eventTypes} from "../../helpers/const";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, eventType} from "../../helpers/const";
 import {capFirstLetter, formatTime24H, getStringDate} from "../../helpers/utils";
 import {createOfferCheckboxTemplate} from "./event-offer";
 
@@ -32,17 +32,17 @@ export const createEventFormTemplate = (event, formCount) => {
           <div class="event__type-list">
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Transfer</legend>
-              ${transferTypes.map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formCount)).join(`\n`)}
+              ${TRANSFER_TYPES.map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formCount)).join(`\n`)}
             </fieldset>
             <fieldset class="event__type-group">
               <legend class="visually-hidden">Activity</legend>
-              ${activityTypes.map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formCount)).join(`\n`)}
+              ${ACTIVITY_TYPES.map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formCount)).join(`\n`)}
             </fieldset>
           </div>
         </div>
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-${formCount}">
-            ${eventTypes[type]}
+            ${eventType[type]}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-${formCount}" type="text" name="event-destination" value="${city}" list="destination-list-${formCount}">
           <datalist id="destination-list-${formCount}">

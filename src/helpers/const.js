@@ -13,10 +13,10 @@ const MONTH_NAMES = [
   `DEC`,
 ];
 
-const transferTypes = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
-const activityTypes = [`check-in`, `sightseeing`, `restaurant`];
+const TRANSFER_TYPES = [`taxi`, `bus`, `train`, `ship`, `transport`, `drive`, `flight`];
+const ACTIVITY_TYPES = [`check-in`, `sightseeing`, `restaurant`];
 
-const eventTypes = {
+const eventType = {
   'taxi': `Taxi to `,
   'bus': `Bus to `,
   'train': `Train to `,
@@ -29,7 +29,7 @@ const eventTypes = {
   'restaurant': `Restaurant in `
 };
 
-const offerItems = {
+const offerItem = {
   'event-offer-luggage': `Add luggage`,
   'event-offer-comfort': `Switch to comfort class`,
   'event-offer-meal': `Add meal`,
@@ -37,7 +37,7 @@ const offerItems = {
   'event-offer-train': `Travel by train`
 };
 
-const offerPrices = {
+const offerPrice = {
   'event-offer-luggage': 30,
   'event-offer-comfort': 100,
   'event-offer-meal': 15,
@@ -45,4 +45,4 @@ const offerPrices = {
   'event-offer-train': 40
 };
 
-export {MONTH_NAMES, transferTypes, activityTypes, eventTypes, offerItems, offerPrices};
+export {MONTH_NAMES, TRANSFER_TYPES, ACTIVITY_TYPES, eventType, offerItem, offerPrice};
