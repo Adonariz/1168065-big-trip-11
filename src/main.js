@@ -66,26 +66,25 @@ const renderMain = (events) => {
   renderTripEventForm(events[0], FORM_COUNT);
   renderTripDaysContainer();
 
-  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
-  const eventsArray = events.slice(1);
-  let daysPassed;
-  let startDateTime;
-  let previousDateTime;
-
-  for (let event of eventsArray) {
-    const currentDateTime = getISOStringDate(event.date.start).slice(0, 10);
-
-    if (previousDateTime === currentDateTime) {
-      const currentDateTimeElement = tripDaysContainer.querySelector(`[datetime="${currentDateTime}"]`);
-      console.log(currentDateTimeElement.parentElement.nextElementSibling);
-      renderTripEventItem(currentDateTimeElement.parentElement.nextElementSibling, event);
-    } else {
-      startDateTime = startDateTime ? startDateTime : currentDateTime;
-      daysPassed = daysPassed ? getPassedDays(startDateTime, currentDateTime) : 1;
-      renderTripDayItem(event, daysPassed, createEventsContainer(createEventTemplate(event)));
-      previousDateTime = currentDateTime;
-    }
-  }
+  // const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+  // const eventsArray = events.slice(1);
+  // let daysPassed;
+  // let startDateTime;
+  // let previousDateTime;
+  //
+  // for (let event of eventsArray) {
+  //   const currentDateTime = getISOStringDate(event.date.start).slice(0, 10);
+  //
+  //   if (previousDateTime === currentDateTime) {
+  //     const currentDateTimeElement = tripDaysContainer.querySelector(`[datetime="${currentDateTime}"]`);
+  //     renderTripEventItem(currentDateTimeElement.parentElement.nextElementSibling, event);
+  //   } else {
+  //     startDateTime = startDateTime ? startDateTime : currentDateTime;
+  //     daysPassed = daysPassed ? getPassedDays(startDateTime, currentDateTime) : 1;
+  //     renderTripDayItem(event, daysPassed, createEventsContainer(createEventTemplate(event)));
+  //     previousDateTime = currentDateTime;
+  //   }
+  // }
 };
 
 renderHeader();

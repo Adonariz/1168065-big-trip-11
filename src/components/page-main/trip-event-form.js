@@ -1,4 +1,4 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, eventType} from "../../helpers/const";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX} from "../../helpers/const";
 import {capFirstLetter, formatTime24H, getStringDate} from "../../helpers/utils";
 import {createOfferCheckboxTemplate} from "./event-offer";
 
@@ -42,7 +42,7 @@ export const createEventFormTemplate = (event, formCount) => {
         </div>
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-${formCount}">
-            ${eventType[type]}
+            ${EVENT_TYPE_PREFIX[type]}
           </label>
           <input class="event__input  event__input--destination" id="event-destination-${formCount}" type="text" name="event-destination" value="${city}" list="destination-list-${formCount}">
           <datalist id="destination-list-${formCount}">

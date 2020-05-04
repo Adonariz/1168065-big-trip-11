@@ -1,4 +1,4 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, offerItem} from "../helpers/const";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, OFFER_NAME} from "../helpers/const";
 
 const CITIES = [`London`, `Berlin`, `Moscow`, `Kiev`, `Paris`, `Amsterdam`, `Oslo`];
 const STRINGS = [
@@ -16,7 +16,7 @@ const STRINGS = [
 
 const eventTypes = TRANSFER_TYPES.concat(ACTIVITY_TYPES);
 const offers = Object
-  .keys(offerItem)
+  .keys(OFFER_NAME)
   .map((item) => {
     return (item = {
       name: item,
