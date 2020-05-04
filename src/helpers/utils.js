@@ -13,12 +13,32 @@ const getISOStringDate = (date) => {
   return isoDate.toISOString();
 };
 
-const counter = () => {
+const groupEvents = (events) => {
+  const eventsGroup = new Map();
 
-}
+  events.forEach((it) => {
+    const startEventDate = new Date(it.date.start);
 
-// const getPassedDays = (start, end) => (new Date(new Date(end) - new Date(start))).getDate();
+    const startDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 0, 0, 0, 0);
+    const endDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 23, 59, 59, 999);
+
+    const startTimestampDay = startDay.getTime();
+    const endTimestampDay = endDay.getTime();
+
+    if (!eventsGroup.has(startTimestampDay)) {
+      const dayEvents = events.filter((event) => {
+        return (
+          startTimestampDay <= event.date.start.getTime() && event.date.end.getTime() <= endTimestampDay
+        );
+      });
+
+      eventsGroup.set(startTimestampDay, dayEvents);
+    }
+  });
+
+  return eventsGroup;
+};
 
 const capFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, capFirstLetter};
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, groupEvents, capFirstLetter};

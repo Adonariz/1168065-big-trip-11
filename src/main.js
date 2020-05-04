@@ -10,7 +10,7 @@ import {createDayTemplate} from "./components/page-main/trip-days";
 import {createEventsContainer} from "./components/page-main/trip-events-container";
 import {createEventTemplate} from "./components/page-main/trip-events";
 import {getRandomTripEvents} from "./mocks/events";
-import {getISOStringDate, getPassedDays} from "./helpers/utils";
+import {getISOStringDate, getPassedDays, groupEvents} from "./helpers/utils";
 
 const POINTS_COUNT = 15;
 const FORM_COUNT = 1;
@@ -62,6 +62,13 @@ const renderTripEventItem = (container, event) => {
   renderComponent(container, createEventTemplate(event));
 };
 
+const renderDays = (container, groupedEvents) => {
+  for (const event of groupedEvents) {
+    const {} = event;
+    renderTripDayItem();
+  }
+};
+
 const renderMain = (events) => {
   renderTripEventForm(events[0], FORM_COUNT);
   renderTripDaysContainer();
@@ -89,3 +96,5 @@ const renderMain = (events) => {
 
 renderHeader();
 renderMain(randomEvents);
+console.log(randomEvents);
+console.log(groupEvents(randomEvents));
