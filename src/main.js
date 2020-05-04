@@ -10,7 +10,7 @@ import {createDayTemplate} from "./components/page-main/trip-days";
 import {createEventsContainer} from "./components/page-main/trip-events-container";
 import {createEventTemplate} from "./components/page-main/trip-events";
 import {getRandomTripEvents} from "./mocks/events";
-import {getISOStringDate, getPassedDays, groupEvents} from "./helpers/utils";
+import {groupEvents} from "./helpers/utils";
 
 const POINTS_COUNT = 15;
 const FORM_COUNT = 1;
@@ -49,52 +49,36 @@ const renderTripDaysContainer = () => {
   renderComponent(tripEventsContainer, createDaysContainer());
 };
 
-const renderTripDayItem = (event, count, eventsList) => {
-  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
-  renderComponent(tripDaysContainer, createDayTemplate(event, count, eventsList));
+const renderTripDayItem = (container, dayTimeStamp, count, eventsList) => {
+  renderComponent(container, createDayTemplate(dayTimeStamp, count, eventsList));
 };
 
 const renderTripEventForm = (event) => {
   renderComponent(tripEventsContainer.querySelector(`h2`), createEventFormTemplate(event), `afterend`);
 };
 
-const renderTripEventItem = (container, event) => {
-  renderComponent(container, createEventTemplate(event));
-};
-
 const renderDays = (container, groupedEvents) => {
-  for (const event of groupedEvents) {
-    const {} = event;
-    renderTripDayItem();
-  }
+  Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
+    const [dayTimeStamp, events] = groupEvent;
+
+    const eventsTemplate = events.map((event) => createEventTemplate(event)).join(`\n`);
+    const eventsContainer = createEventsContainer(eventsTemplate);
+
+    renderTripDayItem(container, dayTimeStamp, ++index, eventsContainer);
+  });
 };
 
 const renderMain = (events) => {
+  const sortedEvents = getSortingEvents(events);
+  const groupedEvents = groupEvents(sortedEvents);
+
   renderTripEventForm(events[0], FORM_COUNT);
   renderTripDaysContainer();
 
-  // const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
-  // const eventsArray = events.slice(1);
-  // let daysPassed;
-  // let startDateTime;
-  // let previousDateTime;
-  //
-  // for (let event of eventsArray) {
-  //   const currentDateTime = getISOStringDate(event.date.start).slice(0, 10);
-  //
-  //   if (previousDateTime === currentDateTime) {
-  //     const currentDateTimeElement = tripDaysContainer.querySelector(`[datetime="${currentDateTime}"]`);
-  //     renderTripEventItem(currentDateTimeElement.parentElement.nextElementSibling, event);
-  //   } else {
-  //     startDateTime = startDateTime ? startDateTime : currentDateTime;
-  //     daysPassed = daysPassed ? getPassedDays(startDateTime, currentDateTime) : 1;
-  //     renderTripDayItem(event, daysPassed, createEventsContainer(createEventTemplate(event)));
-  //     previousDateTime = currentDateTime;
-  //   }
-  // }
+  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+
+  renderDays(tripDaysContainer, groupedEvents);
 };
 
 renderHeader();
 renderMain(randomEvents);
-console.log(randomEvents);
-console.log(groupEvents(randomEvents));

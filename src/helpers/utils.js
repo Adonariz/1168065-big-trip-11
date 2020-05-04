@@ -28,7 +28,7 @@ const groupEvents = (events) => {
     if (!eventsGroup.has(startTimestampDay)) {
       const dayEvents = events.filter((event) => {
         return (
-          startTimestampDay <= event.date.start.getTime() && event.date.end.getTime() <= endTimestampDay
+          startTimestampDay <= event.date.start.getTime() && event.date.start.getTime() <= endTimestampDay
         );
       });
 
