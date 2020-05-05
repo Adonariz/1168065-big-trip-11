@@ -10,7 +10,41 @@ const getStringDate = (date) => `${castTimeFormat(date.getDate())}/${castTimeFor
 const getISOStringDate = (date) => {
   const isoDate = new Date(date);
   isoDate.setHours(isoDate.getHours() - isoDate.getTimezoneOffset() / 60);
+
   return isoDate.toISOString();
+};
+
+const calcDuration = (start, end) => {
+  const MINUTE_IN_MS = 60000;
+  const DAY_IN_MINUTES = 1440;
+  const HOUR_IN_MINUTES = 60;
+
+  let duration = (end - start) / MINUTE_IN_MS;
+  let days = ``;
+  let hours = ``;
+
+  if (duration >= DAY_IN_MINUTES) {
+    days = `${castTimeFormat(Math.floor(duration / DAY_IN_MINUTES))}D `;
+    duration = duration - parseInt(days, 10) * DAY_IN_MINUTES;
+    hours = `00H `;
+  }
+
+  if (duration >= HOUR_IN_MINUTES) {
+    hours = `${castTimeFormat(Math.floor(duration / HOUR_IN_MINUTES))}H `;
+    duration = duration - parseInt(hours, 10) * HOUR_IN_MINUTES;
+  }
+
+  const minutes = `${castTimeFormat(duration)}M`;
+
+  return (
+    `${days}${hours}${minutes}`
+  );
+};
+
+const getSortingEvents = (events) => {
+  return (
+    events.slice().sort((a, b) => a.date.start - b.date.start)
+  );
 };
 
 const groupEvents = (events) => {
@@ -41,4 +75,8 @@ const groupEvents = (events) => {
 
 const capFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, groupEvents, capFirstLetter};
+const renderComponent = (container, template, place = `beforeend`) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, getSortingEvents, groupEvents, capFirstLetter, renderComponent};

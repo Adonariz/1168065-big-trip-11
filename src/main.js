@@ -11,32 +11,27 @@ import {createEventsContainer} from "./components/page-main/trip-events-containe
 import {createEventTemplate} from "./components/page-main/trip-events";
 import {getRandomTripEvents} from "./mocks/events";
 import {groupEvents} from "./helpers/utils";
+import {getSortingEvents} from "./helpers/utils";
+import {renderComponent} from "./helpers/utils";
 
+// Количество моков для рендера
 const POINTS_COUNT = 15;
-const FORM_COUNT = 1;
+const FORM_ID = 1;
 
-const getSortingEvents = (events) => {
-  return (
-    events.slice().sort((a, b) => a.date.start - b.date.start)
-  );
-};
-
+// Получаем отсортированные эвенты
 const randomEvents = getSortingEvents(getRandomTripEvents(POINTS_COUNT));
-
-const renderComponent = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const tripMain = document.querySelector(`.trip-main`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 const tripControls = tripMain.querySelector(`.trip-controls`);
 
+// Информация о поездке
 const renderTripInfo = () => {
   const tripInfoContainer = tripMain.querySelector(`.trip-info`);
   renderComponent(tripInfoContainer, createTripRouteTemplate());
   renderComponent(tripInfoContainer, createTripCostTemplate());
 };
-
+// Рендеринг хэдера
 const renderHeader = () => {
   renderComponent(tripMain, createTripInfoTemplate(), `afterbegin`);
   renderTripInfo();
@@ -44,19 +39,23 @@ const renderHeader = () => {
   renderComponent(tripControls, createTripFiltersTemplate());
 };
 
+// Отрисовка контейнера для дней (событий)
 const renderTripDaysContainer = () => {
   renderComponent(tripEventsContainer.querySelector(`h2`), createTripSortingTemplate(), `afterend`);
   renderComponent(tripEventsContainer, createDaysContainer());
 };
 
+// Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (container, dayTimeStamp, count, eventsList) => {
   renderComponent(container, createDayTemplate(dayTimeStamp, count, eventsList));
 };
 
-const renderTripEventForm = (event) => {
+// Форма редактирования события
+const renderEventEditForm = (event) => {
   renderComponent(tripEventsContainer.querySelector(`h2`), createEventFormTemplate(event), `afterend`);
 };
 
+// Отрисовка событий, сгруппированным по дням
 const renderDays = (container, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
@@ -68,17 +67,18 @@ const renderDays = (container, groupedEvents) => {
   });
 };
 
-const renderMain = (events) => {
+// Отрисовка событий
+const renderEvents = (container, events) => {
   const sortedEvents = getSortingEvents(events);
   const groupedEvents = groupEvents(sortedEvents);
 
-  renderTripEventForm(events[0], FORM_COUNT);
-  renderTripDaysContainer();
-
-  const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
-
-  renderDays(tripDaysContainer, groupedEvents);
+  renderDays(container, groupedEvents);
 };
 
 renderHeader();
-renderMain(randomEvents);
+renderEventEditForm(randomEvents[0], FORM_ID);
+renderTripDaysContainer();
+
+const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+
+renderEvents(tripDaysContainer, randomEvents);
