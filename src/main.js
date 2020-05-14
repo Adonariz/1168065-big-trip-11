@@ -58,9 +58,22 @@ const renderTripDayItem = (daysListComponent, dayTimeStamp, count, eventItems) =
   eventItems.forEach((eventItem) => {
     const eventInnerWrapper = eventItem.getElement().querySelector(`.event`);
     const rollUpEventButton = eventInnerWrapper.querySelector(`.event__rollup-btn`);
+    const eventEditElement = new EventEdit(eventItem.getData(), FORM_ID).getElement();
+
+    const replaceEventToEdit = () => {
+      eventItem.getElement().replaceChild(eventEditElement, eventInnerWrapper);
+    };
+
+    const replaceEditToEvent = () => {
+      eventItem.getElement().replaceChild(eventInnerWrapper, eventEditElement);
+    };
+
     rollUpEventButton.addEventListener(`click`, () => {
-      console.log(eventItem.getData());
-      // event.getElement().replaceChild(new EventEdit(event.getData(), FORM_ID).getElement(), eventInnerWrapper);
+      replaceEventToEdit();
+    });
+
+    eventEditElement.addEventListener(`submit`, () => {
+      replaceEditToEvent();
     });
 
     render(eventsList, eventItem.getElement(), RenderPosition.BEFOREEND);

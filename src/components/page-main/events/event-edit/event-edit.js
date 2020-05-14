@@ -134,10 +134,6 @@ export default class EventEdit {
     return this._element;
   }
 
-  getData() {
-    return this._event;
-  }
-
   removeElement() {
     this._element = null;
   }

@@ -70,4 +70,8 @@ export default class Event {
   removeElement() {
     this._element = null;
   }
+
+  getData() {
+    return this._event;
+  }
 }
