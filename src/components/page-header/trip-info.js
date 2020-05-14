@@ -1,6 +1,6 @@
 import {createElement} from "../../helpers/utils";
 
-export const createTripInfoTemplate = (cost) => {
+const createTripInfoTemplate = (cost) => {
   const totalCost = `${cost ? cost : 0}`;
 
   return (

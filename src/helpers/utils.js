@@ -40,13 +40,13 @@ const calcDuration = (start, end) => {
   );
 };
 
-const getSortingEvents = (events) => {
+const sortEventsByDate = (events) => {
   return (
     events.slice().sort((a, b) => a.date.start - b.date.start)
   );
 };
 
-const groupEvents = (events) => {
+const groupEventsByDate = (events) => {
   const eventsGroup = new Map();
 
   events.forEach((it) => {
@@ -74,10 +74,6 @@ const groupEvents = (events) => {
 
 const capFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-const renderComponent = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
@@ -104,4 +100,4 @@ const render = (container, element, position) => {
   }
 };
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, getSortingEvents, groupEvents, capFirstLetter, renderComponent, createElement, RenderPosition, render};
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, sortEventsByDate, groupEventsByDate, capFirstLetter, createElement, RenderPosition, render};
