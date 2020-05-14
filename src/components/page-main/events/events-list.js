@@ -7,13 +7,12 @@ const createEventsListTemplate = () => {
 };
 
 export default class EventsList {
-  constructor(eventItems) {
-    this._eventItems = eventItems;
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createEventsListTemplate(this._eventItems);
+    return createEventsListTemplate();
   }
 
   getElement() {
