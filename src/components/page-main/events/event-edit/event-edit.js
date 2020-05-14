@@ -5,7 +5,7 @@ import {createEventTypeItemTemplate} from "./event-type-item";
 import {createDestinationItemTemplate} from "./destination-item";
 import {createEventPhotoTemplate} from "./event-photo";
 
-export const createEventEditTemplate = (event, formID) => {
+const createEventEditTemplate = (event, formID) => {
   const {date, destination, type, city, price, isFavorite, offers, photos} = event;
   const transferTypesFieldsetItems = TRANSFER_TYPES
     .map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formID))

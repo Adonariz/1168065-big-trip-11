@@ -7,9 +7,9 @@ import {createTripSortTemplate} from "./components/page-main/trip-sort";
 import {createEventFormTemplate} from "./components/page-main/events/trip-event-form";
 import {createDaysContainer} from "./components/page-main/days/trip-days-list";
 import {createDayTemplate} from "./components/page-main/days/trip-day";
-import {createEventsContainer} from "./components/page-main/events/trip-events-container";
-import {createEventTemplate} from "./components/page-main/events/trip-events";
-import {getRandomTripEvents} from "./mocks/events";
+import {createEventsContainer} from "./components/page-main/events/events-list";
+import {createEventTemplate} from "./components/page-main/events/event-item";
+import {getRandomEvents} from "./mocks/events";
 import {groupEvents} from "./helpers/utils";
 import {getSortingEvents} from "./helpers/utils";
 import {renderComponent} from "./helpers/utils";
@@ -19,7 +19,7 @@ const POINTS_COUNT = 15;
 const FORM_ID = 1;
 
 // Получаем отсортированные эвенты
-const randomEvents = getSortingEvents(getRandomTripEvents(POINTS_COUNT));
+const randomEvents = getSortingEvents(getRandomEvents(POINTS_COUNT));
 
 const tripMain = document.querySelector(`.trip-main`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
