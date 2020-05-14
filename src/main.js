@@ -5,8 +5,8 @@ import {createTripControlsTemplate} from "./components/page-header/trip-controls
 import {createTripFiltersTemplate} from "./components/page-header/trip-filters";
 import {createTripSortTemplate} from "./components/page-main/trip-sort";
 import {createEventFormTemplate} from "./components/page-main/events/trip-event-form";
-import {createDaysContainer} from "./components/page-main/days/trip-days-container";
-import {createDayTemplate} from "./components/page-main/days/trip-days";
+import {createDaysContainer} from "./components/page-main/days/trip-days-list";
+import {createDayTemplate} from "./components/page-main/days/trip-day";
 import {createEventsContainer} from "./components/page-main/events/trip-events-container";
 import {createEventTemplate} from "./components/page-main/events/trip-events";
 import {getRandomTripEvents} from "./mocks/events";
