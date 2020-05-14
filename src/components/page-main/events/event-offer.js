@@ -1,4 +1,4 @@
-import {OFFER_NAME, OFFER_PRICE} from "../../helpers/const";
+import {OFFER_NAME, OFFER_PRICE} from "../../../helpers/const";
 
 const createOfferCheckboxTemplate = (offer, formCount) => {
   return (

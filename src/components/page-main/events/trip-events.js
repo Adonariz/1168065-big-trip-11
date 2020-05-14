@@ -1,5 +1,5 @@
-import {calcDuration, formatTime24H, getISOStringDate} from "../../helpers/utils";
-import {EVENT_TYPE_PREFIX} from "../../helpers/const";
+import {calcDuration, formatTime24H, getISOStringDate} from "../../../helpers/utils";
+import {EVENT_TYPE_PREFIX} from "../../../helpers/const";
 import {createOfferItemTemplate} from "./event-offer";
 
 export const createEventTemplate = (event) => {

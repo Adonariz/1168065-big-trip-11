@@ -9,7 +9,7 @@ const getStringDate = (date) => `${castTimeFormat(date.getDate())}/${castTimeFor
 
 const getISOStringDate = (date) => {
   const isoDate = new Date(date);
-  isoDate.setHours(isoDate.getHours() - isoDate.getTimezoneOffset() / 60);
+  isoDate.setHours(isoDate.getHours());
 
   return isoDate.toISOString();
 };
@@ -79,4 +79,30 @@ const renderComponent = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, getSortingEvents, groupEvents, capFirstLetter, renderComponent};
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
+
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  AFTEREND: `afterend`,
+  BEFOREEND: `beforeend`
+};
+
+const render = (container, element, position) => {
+  switch (position) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, getSortingEvents, groupEvents, capFirstLetter, renderComponent, createElement, RenderPosition, render};

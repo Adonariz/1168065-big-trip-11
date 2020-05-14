@@ -1,5 +1,5 @@
-import {getISOStringDate} from "../../helpers/utils";
-import {MONTH_NAMES} from "../../helpers/const";
+import {getISOStringDate} from "../../../helpers/utils";
+import {MONTH_NAMES} from "../../../helpers/const";
 
 export const createDayTemplate = (dayTimeStamp, count, eventsList) => {
   const date = new Date(dayTimeStamp);

@@ -1,5 +1,5 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX} from "../../helpers/const";
-import {capFirstLetter, formatTime24H, getStringDate} from "../../helpers/utils";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX} from "../../../helpers/const";
+import {capFirstLetter, formatTime24H, getStringDate} from "../../../helpers/utils";
 import {createOfferCheckboxTemplate} from "./event-offer";
 
 const createTripPhotoTemplate = (src) => {
