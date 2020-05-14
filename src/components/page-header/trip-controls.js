@@ -1,21 +1,21 @@
 import {createElement} from "../../helpers/utils";
 
-const createTripRouteTemplate = () => {
+const createTripControlsTemplate = () => {
   return (
-    `<div class="trip-info__main">
-      <h1 class="trip-info__title">Amsterdam &mdash; Chamonix &mdash; Geneva</h1>
-      <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
-    </div>`
+    `<nav class="trip-controls__trip-tabs  trip-tabs">
+      <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
+      <a class="trip-tabs__btn" href="#">Stats</a>
+    </nav>`
   );
 };
 
-export default class TripRoute {
+export default class TripControls {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createTripRouteTemplate();
+    return createTripControlsTemplate();
   }
 
   getElement() {

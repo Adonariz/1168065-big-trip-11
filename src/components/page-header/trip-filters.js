@@ -1,6 +1,10 @@
+import {createElement} from "../../helpers/utils";
+
 const FILTER_NAMES = [`everything`, `future`, `past`];
 
-const createTripFilterMarkup = (name, isChecked) => {
+const createTripFiltersMarkup = (name, isChecked) => {
+  const checked = `${isChecked ? `checked` : ``}`;
+
   return (
     `<div class="trip-filters__filter">
         <input
@@ -9,7 +13,7 @@ const createTripFilterMarkup = (name, isChecked) => {
           type="radio"
           name="trip-filter"
           value="${name}"
-          ${isChecked ? `checked` : ``}
+          ${checked}
         />
         <label class="trip-filters__filter-label" for="filter-${name}">${name}</label>
       </div>`
@@ -18,7 +22,7 @@ const createTripFilterMarkup = (name, isChecked) => {
 
 const createTripFiltersTemplate = () => {
   const filtersMarkup = FILTER_NAMES
-    .map((it, i) => createTripFilterMarkup(it, i === 0))
+    .map((it, i) => createTripFiltersMarkup(it, i === 0))
     .join(`\n`);
 
   return (
@@ -29,4 +33,24 @@ const createTripFiltersTemplate = () => {
   );
 };
 
-export {createTripFiltersTemplate};
+export default class TripFilters {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripFiltersTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
