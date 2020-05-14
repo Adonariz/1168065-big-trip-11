@@ -1,21 +1,8 @@
 import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX} from "../../../helpers/const";
-import {capFirstLetter, formatTime24H, getStringDate} from "../../../helpers/utils";
+import {formatTime24H, getStringDate} from "../../../helpers/utils";
 import {createOfferCheckboxTemplate} from "./event-offer";
 
-const createTripPhotoTemplate = (src) => {
-  return (
-    `<img class="event__photo" src="${src}" alt="Event photo">`
-  );
-};
 
-const createEventTypeItemTemplate = (type, isChecked, formCount) => {
-  return (
-    `<div class="event__type-item">
-      <input id="event-type-${type}-${formCount}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${isChecked ? `checked` : ``}>
-      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-${formCount}">${capFirstLetter(type)}</label>
-    </div>`
-  );
-};
 
 export const createEventFormTemplate = (event, formCount) => {
   const {date, destination, type, city, price, isFavorite, offers, photos} = event;

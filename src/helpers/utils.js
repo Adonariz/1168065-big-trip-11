@@ -6,7 +6,6 @@ const formatTime24H = (date) => `${castTimeFormat(date.getHours())}:${castTimeFo
 
 const getStringDate = (date) => `${castTimeFormat(date.getDate())}/${castTimeFormat(date.getMonth())}/${date.getFullYear() % 100}`;
 
-
 const getISOStringDate = (date) => {
   const isoDate = new Date(date);
   isoDate.setHours(isoDate.getHours());
