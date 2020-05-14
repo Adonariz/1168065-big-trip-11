@@ -55,13 +55,20 @@ const renderTripDayItem = (daysListComponent, dayTimeStamp, count, eventItems) =
   const eventsList = eventsListComponent.getElement();
   render(tripDayItem, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
 
-  eventItems.forEach((event) => {
-    render(eventsList, event.getElement(), RenderPosition.BEFOREEND);
+  eventItems.forEach((eventItem) => {
+    const eventInnerWrapper = eventItem.getElement().querySelector(`.event`);
+    const rollUpEventButton = eventInnerWrapper.querySelector(`.event__rollup-btn`);
+    rollUpEventButton.addEventListener(`click`, () => {
+      console.log(eventItem.getData());
+      // event.getElement().replaceChild(new EventEdit(event.getData(), FORM_ID).getElement(), eventInnerWrapper);
+    });
+
+    render(eventsList, eventItem.getElement(), RenderPosition.BEFOREEND);
   });
 };
 
 // Форма редактирования события
-const renderEventEditForm = (event) => {
+const renderNewEventForm = (event) => {
   const eventEditComponent = new EventEdit(event, FORM_ID);
   render(tripEventsContainer.querySelector(`h2`), eventEditComponent.getElement(), RenderPosition.AFTEREND);
 };
@@ -86,7 +93,7 @@ const renderEvents = (container, events) => {
 };
 
 renderHeader();
-renderEventEditForm(randomEvents[0], FORM_ID);
+renderNewEventForm(randomEvents[0], FORM_ID);
 renderTripDaysList();
 
 const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
