@@ -44,20 +44,20 @@ const renderTripDaysList = () => {
   render(tripEventsContainer, daysListComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
-const renderEventsList = (container) => {
-  const eventsListComponent = new EventsList();
-  render(container, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
-};
-
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (daysListComponent, dayTimeStamp, count, eventItems) => {
   const tripDayItemComponent = new DayItem(dayTimeStamp, count);
+  const tripDayItem = tripDayItemComponent.getElement();
 
-  render(daysListComponent, tripDayItemComponent.getElement(), RenderPosition.BEFOREEND);
-  renderEventsList(tripDayItemComponent.getElement());
+  render(daysListComponent, tripDayItem, RenderPosition.BEFOREEND);
 
-  const eventsList = daysListComponent.querySelector(`ul`);
-  render(eventsList, eventItems, RenderPosition.BEFOREEND);
+  const eventsListComponent = new EventsList();
+  const eventsList = eventsListComponent.getElement();
+  render(tripDayItem, eventsListComponent.getElement(), RenderPosition.BEFOREEND);
+
+  eventItems.forEach((event) => {
+    render(eventsList, event.getElement(), RenderPosition.BEFOREEND);
+  });
 };
 
 // Форма редактирования события
@@ -71,8 +71,7 @@ const renderDays = (container, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    const eventItems = events.map((event) => new Event(event).getTemplate())
-      .join(`\n`);
+    const eventItems = events.map((event) => new Event(event));
 
     renderTripDayItem(container, dayTimeStamp, ++index, eventItems);
   });
@@ -87,7 +86,7 @@ const renderEvents = (container, events) => {
 };
 
 renderHeader();
-// renderEventEditForm(randomEvents[0], FORM_ID);
+renderEventEditForm(randomEvents[0], FORM_ID);
 renderTripDaysList();
 
 const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
