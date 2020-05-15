@@ -11,6 +11,7 @@ import EventsListItem from "./components/page-main/events/events-list-item";
 import Event from "./components/page-main/events/event-item";
 import EventEdit from "./components/page-main/events/event-edit/event-edit";
 import {getRandomEvents} from "./mocks/events";
+import NoEvents from "./components/page-main/events/no-events";
 
 // Количество моков для рендера
 const POINTS_COUNT = 15;
@@ -72,10 +73,21 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
 
     const replaceEventToEdit = () => {
       eventsListItem.replaceChild(eventEditElement, eventElement);
+      document.addEventListener(`keydown`, onEscKeyDown);
+    };
+
+    const onEscKeyDown = (evt) => {
+      const ESC_KEY = `Escape`;
+
+      if (evt.key === ESC_KEY) {
+        replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
     };
 
     const replaceEditToEvent = () => {
       eventsListItem.replaceChild(eventElement, eventEditElement);
+      document.removeEventListener(`keydown`, onEscKeyDown);
     };
 
     rollUpEventButton.addEventListener(`click`, replaceEventToEdit);
@@ -101,6 +113,12 @@ const renderDays = (tripDaysList, groupedEvents) => {
 };
 
 // Отрисовка событий
+const renderNoEventsMessage = () => {
+  const noEvents = new NoEvents().getElement();
+
+  render(tripEventsContainerChild, noEvents, RenderPosition.AFTEREND);
+};
+
 const renderEvents = (container, events) => {
   const sortedEvents = sortEventsByDate(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
@@ -108,10 +126,21 @@ const renderEvents = (container, events) => {
   renderDays(container, groupedEvents);
 };
 
-renderHeader();
-renderNewEventForm(randomEvents[0], FORM_ID);
-renderTripDaysList();
+const renderPage = (events) => {
+  renderHeader();
 
-const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
+  if (events.length === 0) {
+    renderNoEventsMessage();
+    return;
+  }
 
-renderEvents(tripDaysList, randomEvents);
+  renderNewEventForm(events[0], FORM_ID);
+  renderTripDaysList();
+
+  const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
+  renderEvents(tripDaysList, events);
+};
+
+// const emptyEvents = [];
+
+renderPage(randomEvents);
