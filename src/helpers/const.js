@@ -45,16 +45,16 @@ const TRANSFER_TYPES = [EventType.TAXI, EventType.BUS, EventType.TRAIN, EventTyp
 const ACTIVITY_TYPES = [EventType.CHECK_IN, EventType.SIGHTSEEING, EventType.RESTAURANT];
 
 const EVENT_TYPE_PREFIX = {
-  'taxi': `Taxi to `,
-  'bus': `Bus to `,
-  'train': `Train to `,
-  'ship': `Ship to `,
-  'transport': `Transport to `,
-  'drive': `Drive to `,
-  'flight': `Flight to `,
-  'check-in': `Check-in in `,
-  'sightseeing': `Sightseeing in `,
-  'restaurant': `Restaurant in `
+  [EventType.TAXI]: `Taxi to `,
+  [EventType.BUS]: `Bus to `,
+  [EventType.TRAIN]: `Train to `,
+  [EventType.SHIP]: `Ship to `,
+  [EventType.TRANSPORT]: `Transport to `,
+  [EventType.DRIVE]: `Drive to `,
+  [EventType.FLIGHT]: `Flight to `,
+  [EventType.CHECK_IN]: `Check-in in `,
+  [EventType.SIGHTSEEING]: `Sightseeing in `,
+  [EventType.RESTAURANT]: `Restaurant in `
 };
 
 const OFFER_NAME = {
