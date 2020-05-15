@@ -13,6 +13,21 @@ const MONTH_NAMES = [
   `DEC`,
 ];
 
+const CITIES = [`London`, `Berlin`, `Moscow`, `Kiev`, `Paris`, `Amsterdam`, `Oslo`];
+
+const STRINGS = [
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+  `Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.`,
+  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+  `Aliquam erat volutpat.`,
+  `Nunc fermentum tortor ac porta dapibus.`,
+  `In rutrum ac purus sit amet tempus.`
+];
+
 const EventType = {
   TAXI: `taxi`,
   BUS: `bus`,
@@ -30,16 +45,16 @@ const TRANSFER_TYPES = [EventType.TAXI, EventType.BUS, EventType.TRAIN, EventTyp
 const ACTIVITY_TYPES = [EventType.CHECK_IN, EventType.SIGHTSEEING, EventType.RESTAURANT];
 
 const EVENT_TYPE_PREFIX = {
-  'taxi': `Taxi to `,
-  'bus': `Bus to `,
-  'train': `Train to `,
-  'ship': `Ship to `,
-  'transport': `Transport to `,
-  'drive': `Drive to `,
-  'flight': `Flight to `,
-  'check-in': `Check-in in `,
-  'sightseeing': `Sightseeing in `,
-  'restaurant': `Restaurant in `
+  [EventType.TAXI]: `Taxi to `,
+  [EventType.BUS]: `Bus to `,
+  [EventType.TRAIN]: `Train to `,
+  [EventType.SHIP]: `Ship to `,
+  [EventType.TRANSPORT]: `Transport to `,
+  [EventType.DRIVE]: `Drive to `,
+  [EventType.FLIGHT]: `Flight to `,
+  [EventType.CHECK_IN]: `Check-in in `,
+  [EventType.SIGHTSEEING]: `Sightseeing in `,
+  [EventType.RESTAURANT]: `Restaurant in `
 };
 
 const OFFER_NAME = {
@@ -58,4 +73,4 @@ const OFFER_PRICE = {
   'event-offer-train': 40
 };
 
-export {MONTH_NAMES, TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE};
+export {MONTH_NAMES, CITIES, STRINGS, TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE};

@@ -1,84 +1,117 @@
-import {createTripInfoTemplate} from "./components/page-header/trip-info";
-import {createTripRouteTemplate} from "./components/page-header/trip-route";
-import {createTripCostTemplate} from "./components/page-header/trip-cost";
-import {createPageNavigationTemplate} from "./components/page-header/page-navigation";
-import {createTripFiltersTemplate} from "./components/page-header/trip-filter";
-import {createTripSortingTemplate} from "./components/page-main/trip-sort";
-import {createEventFormTemplate} from "./components/page-main/trip-event-form";
-import {createDaysContainer} from "./components/page-main/trip-days-container";
-import {createDayTemplate} from "./components/page-main/trip-days";
-import {createEventsContainer} from "./components/page-main/trip-events-container";
-import {createEventTemplate} from "./components/page-main/trip-events";
-import {getRandomTripEvents} from "./mocks/events";
-import {groupEvents} from "./helpers/utils";
-import {getSortingEvents} from "./helpers/utils";
-import {renderComponent} from "./helpers/utils";
+import {groupEventsByDate, sortEventsByDate, render, RenderPosition} from "./helpers/utils";
+import TripInfo from "./components/page-header/trip-info";
+import TripRoute from "./components/page-header/trip-route";
+import TripControls from "./components/page-header/trip-controls";
+import TripFilters from "./components/page-header/trip-filters";
+import Sort from "./components/page-main/trip-sort";
+import DaysList from "./components/page-main/days/trip-days-list";
+import DayItem from "./components/page-main/days/trip-day";
+import EventsList from "./components/page-main/events/events-list";
+import EventsListItem from "./components/page-main/events/events-list-item";
+import Event from "./components/page-main/events/event-item";
+import EventEdit from "./components/page-main/events/event-edit/event-edit";
+import {getRandomEvents} from "./mocks/events";
 
 // Количество моков для рендера
 const POINTS_COUNT = 15;
 const FORM_ID = 1;
 
 // Получаем отсортированные эвенты
-const randomEvents = getSortingEvents(getRandomTripEvents(POINTS_COUNT));
+const randomEvents = sortEventsByDate(getRandomEvents(POINTS_COUNT));
 
 const tripMain = document.querySelector(`.trip-main`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
+const tripEventsContainerChild = tripEventsContainer.querySelector(`h2`);
 const tripControls = tripMain.querySelector(`.trip-controls`);
 
-// Информация о поездке
-const renderTripInfo = () => {
-  const tripInfoContainer = tripMain.querySelector(`.trip-info`);
-  renderComponent(tripInfoContainer, createTripRouteTemplate());
-  renderComponent(tripInfoContainer, createTripCostTemplate());
-};
 // Рендеринг хэдера
 const renderHeader = () => {
-  renderComponent(tripMain, createTripInfoTemplate(), `afterbegin`);
-  renderTripInfo();
-  renderComponent(tripControls.querySelector(`h2`), createPageNavigationTemplate());
-  renderComponent(tripControls, createTripFiltersTemplate());
+  const tripInfoComponent = new TripInfo();
+  const tripRouteComponent = new TripRoute();
+  const tripControlsComponent = new TripControls();
+  const tripFiltersComponent = new TripFilters();
+
+  render(tripMain, tripInfoComponent.getElement(), RenderPosition.AFTERBEGIN);
+  render(tripInfoComponent.getElement(), tripRouteComponent.getElement(), RenderPosition.AFTERBEGIN);
+  render(tripControls.querySelector(`h2`), tripControlsComponent.getElement(), RenderPosition.AFTEREND);
+  render(tripControls, tripFiltersComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
 // Отрисовка контейнера для дней (событий)
-const renderTripDaysContainer = () => {
-  renderComponent(tripEventsContainer.querySelector(`h2`), createTripSortingTemplate(), `afterend`);
-  renderComponent(tripEventsContainer, createDaysContainer());
+const renderTripDaysList = () => {
+  const tripSortComponent = new Sort();
+  const daysListComponent = new DaysList();
+
+  render(tripEventsContainerChild, tripSortComponent.getElement(), RenderPosition.AFTEREND);
+  render(tripEventsContainer, daysListComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
 // Отрисовка контейнера для группировки по дням
-const renderTripDayItem = (container, dayTimeStamp, count, eventsList) => {
-  renderComponent(container, createDayTemplate(dayTimeStamp, count, eventsList));
+const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
+  const tripDayItemComponent = new DayItem(dayTimeStamp, count);
+  const tripDayItem = tripDayItemComponent.getElement();
+
+  render(tripDaysList, tripDayItem, RenderPosition.BEFOREEND);
+
+  const eventsListElement = new EventsList().getElement();
+  render(tripDayItem, eventsListElement, RenderPosition.BEFOREEND);
+
+  const eventsListItemElement = new EventsListItem().getElement();
+  render(eventsListElement, eventsListItemElement, RenderPosition.BEFOREEND);
+
+  const eventComponents = events.map((event) => new Event(event));
+
+  renderTripDayEventsItem(eventsListItemElement, eventComponents);
+};
+
+const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
+  eventComponents.forEach((eventComponent) => {
+    const eventElement = eventComponent.getElement();
+    const rollUpEventButton = eventElement.querySelector(`.event__rollup-btn`);
+    const eventEditElement = new EventEdit(eventComponent.getData(), FORM_ID).getElement();
+
+    const replaceEventToEdit = () => {
+      eventsListItem.replaceChild(eventEditElement, eventElement);
+    };
+
+    const replaceEditToEvent = () => {
+      eventsListItem.replaceChild(eventElement, eventEditElement);
+    };
+
+    rollUpEventButton.addEventListener(`click`, replaceEventToEdit);
+    eventEditElement.addEventListener(`submit`, replaceEditToEvent);
+
+    render(eventsListItem, eventElement, RenderPosition.BEFOREEND);
+  });
 };
 
 // Форма редактирования события
-const renderEventEditForm = (event) => {
-  renderComponent(tripEventsContainer.querySelector(`h2`), createEventFormTemplate(event), `afterend`);
+const renderNewEventForm = (event) => {
+  const eventEditComponent = new EventEdit(event, FORM_ID);
+  render(tripEventsContainerChild, eventEditComponent.getElement(), RenderPosition.AFTEREND);
 };
 
 // Отрисовка событий, сгруппированным по дням
-const renderDays = (container, groupedEvents) => {
+const renderDays = (tripDaysList, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    const eventsTemplate = events.map((event) => createEventTemplate(event)).join(`\n`);
-    const eventsContainer = createEventsContainer(eventsTemplate);
-
-    renderTripDayItem(container, dayTimeStamp, ++index, eventsContainer);
+    renderTripDayItem(tripDaysList, dayTimeStamp, ++index, events);
   });
 };
 
 // Отрисовка событий
 const renderEvents = (container, events) => {
-  const sortedEvents = getSortingEvents(events);
-  const groupedEvents = groupEvents(sortedEvents);
+  const sortedEvents = sortEventsByDate(events);
+  const groupedEvents = groupEventsByDate(sortedEvents);
 
   renderDays(container, groupedEvents);
 };
 
 renderHeader();
-renderEventEditForm(randomEvents[0], FORM_ID);
-renderTripDaysContainer();
+renderNewEventForm(randomEvents[0], FORM_ID);
+renderTripDaysList();
 
-const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
 
-renderEvents(tripDaysContainer, randomEvents);
+renderEvents(tripDaysList, randomEvents);

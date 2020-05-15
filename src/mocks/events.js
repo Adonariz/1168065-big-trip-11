@@ -1,18 +1,4 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, OFFER_NAME} from "../helpers/const";
-
-const CITIES = [`London`, `Berlin`, `Moscow`, `Kiev`, `Paris`, `Amsterdam`, `Oslo`];
-const STRINGS = [
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  `Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.`,
-  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
-  `Aliquam erat volutpat.`,
-  `Nunc fermentum tortor ac porta dapibus.`,
-  `In rutrum ac purus sit amet tempus.`
-];
+import {TRANSFER_TYPES, CITIES, STRINGS, ACTIVITY_TYPES, OFFER_NAME} from "../helpers/const";
 
 const eventTypes = TRANSFER_TYPES.concat(ACTIVITY_TYPES);
 const offers = Object
@@ -32,7 +18,7 @@ const getRandomArrayItem = (array) => {
   return array[getRandomIntegerNumber(0, array.length - 1)];
 };
 
-const getRandomDate = () => {
+const getRandomStartDate = () => {
   const targetDate = new Date();
   const sign = Math.random() > 0.5 ? 1 : -1;
   const diffValue = sign * getRandomIntegerNumber(0, 8);
@@ -75,8 +61,8 @@ const getRandomPhotos = () => {
   return photos;
 };
 
-const getRandomTripEvent = () => {
-  const randomDate = getRandomDate();
+const getRandomEvent = () => {
+  const randomDate = getRandomStartDate();
   const randomEndDate = getRandomEndDate(randomDate);
   return {
     date: {
@@ -93,10 +79,10 @@ const getRandomTripEvent = () => {
   };
 };
 
-const getRandomTripEvents = (count) => {
+const getRandomEvents = (count) => {
   return new Array(count)
     .fill(``)
-    .map(getRandomTripEvent);
+    .map(getRandomEvent);
 };
 
-export {getRandomTripEvent, getRandomTripEvents};
+export {getRandomEvent, getRandomEvents};

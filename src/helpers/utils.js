@@ -6,10 +6,9 @@ const formatTime24H = (date) => `${castTimeFormat(date.getHours())}:${castTimeFo
 
 const getStringDate = (date) => `${castTimeFormat(date.getDate())}/${castTimeFormat(date.getMonth())}/${date.getFullYear() % 100}`;
 
-
 const getISOStringDate = (date) => {
   const isoDate = new Date(date);
-  isoDate.setHours(isoDate.getHours() - isoDate.getTimezoneOffset() / 60);
+  isoDate.setHours(isoDate.getHours());
 
   return isoDate.toISOString();
 };
@@ -41,13 +40,13 @@ const calcDuration = (start, end) => {
   );
 };
 
-const getSortingEvents = (events) => {
+const sortEventsByDate = (events) => {
   return (
     events.slice().sort((a, b) => a.date.start - b.date.start)
   );
 };
 
-const groupEvents = (events) => {
+const groupEventsByDate = (events) => {
   const eventsGroup = new Map();
 
   events.forEach((it) => {
@@ -75,8 +74,30 @@ const groupEvents = (events) => {
 
 const capFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-const renderComponent = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
 };
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, getSortingEvents, groupEvents, capFirstLetter, renderComponent};
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  AFTEREND: `afterend`,
+  BEFOREEND: `beforeend`
+};
+
+const render = (container, element, position) => {
+  switch (position) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, sortEventsByDate, groupEventsByDate, capFirstLetter, createElement, RenderPosition, render};
