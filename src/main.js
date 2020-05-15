@@ -72,10 +72,21 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
 
     const replaceEventToEdit = () => {
       eventsListItem.replaceChild(eventEditElement, eventElement);
+      document.addEventListener(`keydown`, onEscKeyDown);
+    };
+
+    const onEscKeyDown = (evt) => {
+      const ESC_KEY = `Escape`;
+
+      if (evt.key === ESC_KEY) {
+        replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscKeyDown);
+      }
     };
 
     const replaceEditToEvent = () => {
       eventsListItem.replaceChild(eventElement, eventEditElement);
+      document.removeEventListener(`keydown`, onEscKeyDown);
     };
 
     rollUpEventButton.addEventListener(`click`, replaceEventToEdit);
