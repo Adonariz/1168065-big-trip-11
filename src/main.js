@@ -10,8 +10,9 @@ import EventsList from "./components/page-main/events/events-list";
 import EventsListItem from "./components/page-main/events/events-list-item";
 import Event from "./components/page-main/events/event-item";
 import EventEdit from "./components/page-main/events/event-edit/event-edit";
-import {getRandomEvents} from "./mocks/events";
 import NoEvents from "./components/page-main/events/no-events";
+import {getRandomEvents} from "./mocks/events";
+import {ESC_KEY} from "./helpers/const";
 
 // Количество моков для рендера
 const POINTS_COUNT = 15;
@@ -77,8 +78,6 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
     };
 
     const onEscKeyDown = (evt) => {
-      const ESC_KEY = `Escape`;
-
       if (evt.key === ESC_KEY) {
         replaceEditToEvent();
         document.removeEventListener(`keydown`, onEscKeyDown);
