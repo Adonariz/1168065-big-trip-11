@@ -86,10 +86,10 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
 };
 
 // Форма редактирования события
-// const renderNewEventForm = (event) => {
-//   const eventEditComponent = new EventEdit(event, FORM_ID);
-//   render(tripEventsContainerChild, eventEditComponent.getElement(), RenderPosition.AFTEREND);
-// };
+const renderNewEventForm = (event) => {
+  const eventEditComponent = new EventEdit(event, FORM_ID);
+  render(tripEventsContainerChild, eventEditComponent.getElement(), RenderPosition.AFTEREND);
+};
 
 // Отрисовка событий, сгруппированным по дням
 const renderDays = (tripDaysList, groupedEvents) => {
@@ -109,7 +109,7 @@ const renderEvents = (container, events) => {
 };
 
 renderHeader();
-// renderNewEventForm(randomEvents[0], FORM_ID);
+renderNewEventForm(randomEvents[0], FORM_ID);
 renderTripDaysList();
 
 const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
