@@ -1,4 +1,4 @@
-import {createElement} from "../../helpers/utils";
+import AbstractComponent from "../abstract-component";
 
 const createTripInfoTemplate = (cost) => {
   const totalCost = `${cost ? cost : 0}`;
@@ -10,24 +10,8 @@ const createTripInfoTemplate = (cost) => {
   );
 };
 
-export default class TripInfo {
-  constructor() {
-    this._element = null;
-  }
-
+export default class TripInfo extends AbstractComponent {
   getTemplate() {
     return createTripInfoTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
