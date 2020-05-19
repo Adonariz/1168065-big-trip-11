@@ -1,5 +1,5 @@
 import {groupEventsByDate, sortEventsByDate} from "./helpers/utils";
-import {render, RenderPosition} from "./helpers/render";
+import {render, RenderPosition, replace} from "./helpers/render";
 import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";
@@ -74,7 +74,7 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
     const eventEditElement = new EventEdit(eventComponent.getData(), FORM_ID).getElement();
 
     const replaceEventToEdit = () => {
-      eventsListItem.replaceChild(eventEditElement, eventElement);
+      replace(eventsListItem, eventEditElement, eventElement);
       document.addEventListener(`keydown`, onEscKeyDown);
     };
 
@@ -86,7 +86,7 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
     };
 
     const replaceEditToEvent = () => {
-      eventsListItem.replaceChild(eventElement, eventEditElement);
+      replace(eventsListItem, eventElement, eventEditElement);
       document.removeEventListener(`keydown`, onEscKeyDown);
     };
 
