@@ -1,9 +1,10 @@
 import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES} from "../../../../helpers/const";
-import {getStringDate, formatTime24H, createElement} from "../../../../helpers/utils";
+import {getStringDate, formatTime24H} from "../../../../helpers/utils";
 import {createOfferCheckboxTemplate} from "../event-offer";
 import {createEventTypeItemTemplate} from "./event-type-item";
 import {createDestinationItemTemplate} from "./destination-item";
 import {createEventPhotoTemplate} from "./event-photo";
+import AbstractComponent from "../../../abstract-component";
 
 const createEventEditTemplate = (event, formID) => {
   const {date, destination, type, city, price, isFavorite, offers, photos} = event;
@@ -115,26 +116,15 @@ const createEventEditTemplate = (event, formID) => {
   );
 };
 
-export default class EventEdit {
+export default class EventEdit extends AbstractComponent {
   constructor(event, formID) {
+    super();
+
     this._event = event;
     this._formID = formID;
-    this._element = null;
   }
 
   getTemplate() {
     return createEventEditTemplate(this._event, this._formID);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
