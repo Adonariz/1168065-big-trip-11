@@ -7,6 +7,8 @@ import TripFilters from "./components/page-header/trip-filters";
 import NoEvents from "./components/page-main/events/no-events";
 import {getRandomEvents} from "./mocks/events";
 import TripController from "./controllers/trip";
+import Sort from "./components/page-main/trip-sort";
+import DaysList from "./components/page-main/days/trip-days-list";
 
 // Количество моков для рендера
 const POINTS_COUNT = 15;
@@ -32,12 +34,18 @@ const renderHeader = () => {
   render(tripControls, tripFiltersComponent, RenderPosition.BEFOREEND);
 };
 
-// Отрисовка событий
+// Отрисовка сообщения при отсутствии событий
 const renderNoEventsMessage = () => {
   const noEvents = new NoEvents();
 
   render(tripEventsContainerChild, noEvents, RenderPosition.AFTEREND);
 };
+
+// Форма редактирования события
+// const renderNewEventForm = (event) => {
+//   const eventEditComponent = new EventEdit(event, FORM_ID);
+//   render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
+// };
 
 const renderPage = (events) => {
   renderHeader();
@@ -47,7 +55,15 @@ const renderPage = (events) => {
     return;
   }
 
-  const tripController = new TripController();
+  const tripSortComponent = new Sort();
+  const daysListComponent = new DaysList();
+
+  render(tripEventsContainerChild, tripSortComponent, RenderPosition.AFTEREND);
+  render(tripEventsContainer, daysListComponent, RenderPosition.BEFOREEND);
+
+  const tripDaysList = daysListComponent.getElement();
+
+  const tripController = new TripController(tripDaysList);
   tripController.render(events);
 };
 

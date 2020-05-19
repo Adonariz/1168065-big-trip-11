@@ -1,6 +1,4 @@
 // Отрисовка контейнера для дней (событий)
-import Sort from "../components/page-main/trip-sort";
-import DaysList from "../components/page-main/days/trip-days-list";
 import {render, RenderPosition, replace} from "../helpers/render";
 import DayItem from "../components/page-main/days/trip-day";
 import EventsList from "../components/page-main/events/events-list";
@@ -11,17 +9,6 @@ import {ESC_KEY} from "../helpers/const";
 import {groupEventsByDate, sortEventsByDate} from "../helpers/utils";
 
 const FORM_ID = 1;
-
-const tripEventsContainer = document.querySelector(`.trip-events`);
-const tripEventsContainerChild = tripEventsContainer.querySelector(`h2`);
-
-const renderTripDaysList = () => {
-  const tripSortComponent = new Sort();
-  const daysListComponent = new DaysList();
-
-  render(tripEventsContainerChild, tripSortComponent, RenderPosition.AFTEREND);
-  render(tripEventsContainer, daysListComponent, RenderPosition.BEFOREEND);
-};
 
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
@@ -69,12 +56,6 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
   });
 };
 
-// Форма редактирования события
-// const renderNewEventForm = (event) => {
-//   const eventEditComponent = new EventEdit(event, FORM_ID);
-//   render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
-// };
-
 // Отрисовка событий, сгруппированным по дням
 const renderDays = (tripDaysList, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
@@ -92,9 +73,11 @@ const renderEvents = (container, events) => {
 };
 
 export default class TripController {
+  constructor(container) {
+    this._container = container;
+  }
+
   render(events) {
-    renderTripDaysList();
-    const tripDaysList = tripEventsContainer.querySelector(`.trip-days`);
-    renderEvents(tripDaysList, events);
+    renderEvents(this._container, events);
   }
 }
