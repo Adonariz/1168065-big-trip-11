@@ -1,4 +1,3 @@
-// Отрисовка контейнера для дней (событий)
 import {render, RenderPosition, replace} from "../helpers/render";
 import DayItem from "../components/page-main/days/trip-day";
 import EventsList from "../components/page-main/events/events-list";

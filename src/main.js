@@ -9,8 +9,10 @@ import {getRandomEvents} from "./mocks/events";
 import TripController from "./controllers/trip";
 import Sort from "./components/page-main/trip-sort";
 import DaysList from "./components/page-main/days/trip-days-list";
+import EventEdit from "./components/page-main/events/event-edit/event-edit";
 
 // Количество моков для рендера
+const FORM_ID = 1;
 const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
@@ -42,10 +44,10 @@ const renderNoEventsMessage = () => {
 };
 
 // Форма редактирования события
-// const renderNewEventForm = (event) => {
-//   const eventEditComponent = new EventEdit(event, FORM_ID);
-//   render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
-// };
+const renderNewEventForm = (event) => {
+  const eventEditComponent = new EventEdit(event, FORM_ID);
+  render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
+};
 
 const renderPage = (events) => {
   renderHeader();
@@ -54,6 +56,8 @@ const renderPage = (events) => {
     renderNoEventsMessage();
     return;
   }
+
+  renderNewEventForm(events[0]);
 
   const tripSortComponent = new Sort();
   const daysListComponent = new DaysList();
