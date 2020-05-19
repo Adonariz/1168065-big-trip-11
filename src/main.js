@@ -69,10 +69,10 @@ const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
 
 const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
   eventComponents.forEach((eventComponent) => {
-    const eventElement = eventComponent.getElement();
-    const rollUpEventButton = eventElement.querySelector(`.event__rollup-btn`);
+    // const eventElement = eventComponent.getElement();
+    // const rollUpEventButton = eventElement.querySelector(`.event__rollup-btn`);
     const eventEditComponent = new EventEdit(eventComponent.getData(), FORM_ID);
-    const eventEditElement = eventEditComponent.getElement();
+    // const eventEditElement = eventEditComponent.getElement();
 
     const replaceEventToEdit = () => {
       replace(eventEditComponent, eventComponent);
@@ -91,8 +91,8 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
       document.removeEventListener(`keydown`, onEscKeyDown);
     };
 
-    rollUpEventButton.addEventListener(`click`, replaceEventToEdit);
-    eventEditElement.addEventListener(`submit`, replaceEditToEvent);
+    eventComponent.setEditButtonClickHandler(replaceEventToEdit);
+    eventEditComponent.setSubmitHandler(replaceEditToEvent);
 
     render(eventsListItem, eventComponent, RenderPosition.BEFOREEND);
   });
