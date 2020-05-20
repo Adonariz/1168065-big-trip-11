@@ -1,4 +1,3 @@
-import {sortEventsByDate} from "./helpers/utils";
 import {render, RenderPosition} from "./helpers/render";
 import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
@@ -16,7 +15,7 @@ const FORM_ID = 1;
 const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
-const randomEvents = sortEventsByDate(getRandomEvents(POINTS_COUNT));
+const randomEvents = getRandomEvents(POINTS_COUNT);
 
 const tripMain = document.querySelector(`.trip-main`);
 const tripEventsContainer = document.querySelector(`.trip-events`);

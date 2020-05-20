@@ -5,12 +5,30 @@ import EventsListItem from "../components/page-main/events/events-list-item";
 import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit/event-edit";
 import {ESC_KEY} from "../helpers/const";
-import {groupEventsByDate, sortEventsByDate} from "../helpers/utils";
+import {groupEventsByDate} from "../helpers/utils";
+import {SortType} from "../components/page-main/trip-sort";
 
 const FORM_ID = 1;
 
+const getSortedEvents = (events, sortType) => {
+  let sortedEvents = [];
+  const showingEvents = events.slice();
+
+  switch (sortType) {
+    case SortType.DEFAULT:
+      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
+      break;
+
+    default:
+      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
+      break;
+  }
+
+  return sortedEvents;
+};
+
 // Отрисовка контейнера для группировки по дням
-const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
+const renderTripDayItem = (tripDaysList, events, dayTimeStamp = null, count = null) => {
   const tripDayItemComponent = new TripDayItem(dayTimeStamp, count);
   const tripDayItem = tripDayItemComponent.getElement();
 
@@ -60,12 +78,12 @@ const renderDays = (tripDaysList, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    renderTripDayItem(tripDaysList, dayTimeStamp, ++index, events);
+    renderTripDayItem(tripDaysList, events, dayTimeStamp, ++index);
   });
 };
 
 const renderEvents = (container, events) => {
-  const sortedEvents = sortEventsByDate(events);
+  const sortedEvents = getSortedEvents(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
 
   renderDays(container, groupedEvents);
