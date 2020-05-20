@@ -4,9 +4,8 @@ import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";
 import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit/event-edit";
-import {ESC_KEY} from "../helpers/const";
+import {ESC_KEY, SortType} from "../helpers/const";
 import {groupEventsByDate} from "../helpers/utils";
-import {SortType} from "../components/page-main/trip-sort";
 
 const FORM_ID = 1;
 

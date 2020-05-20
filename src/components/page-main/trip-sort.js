@@ -1,10 +1,5 @@
 import AbstractComponent from "../abstract-component";
-
-const SortType = {
-  DEFAULT: `sort-event`,
-  TIME: `sort-time`,
-  PRICE: `sort-price`
-};
+import {SortType} from "../../helpers/const";
 
 const createTripSortTemplate = () => {
   return (
@@ -75,5 +70,3 @@ export default class TripSort extends AbstractComponent {
       });
   }
 }
-
-export {SortType};
