@@ -1,33 +1,16 @@
-import {render, RenderPosition, replace} from "../helpers/render";
+import {remove, render, RenderPosition, replace} from "../helpers/render";
+import {SortType, groupEventsByDate, sortEvents} from "../helpers/sort";
+import {ESC_KEY} from "../helpers/const";
 import TripDayItem from "../components/page-main/days/trip-day-item";
 import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";
 import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit/event-edit";
-import {ESC_KEY, SortType} from "../helpers/const";
-import {groupEventsByDate} from "../helpers/utils";
 import NoEvents from "../components/page-main/events/no-events";
 import TripSort from "../components/page-main/trip-sort";
 import TripDaysList from "../components/page-main/days/trip-days-list";
 
 const FORM_ID = 1;
-
-const getSortedEvents = (events, sortType) => {
-  let sortedEvents = [];
-  const showingEvents = events.slice();
-
-  switch (sortType) {
-    case SortType.DEFAULT:
-      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
-      break;
-
-    default:
-      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
-      break;
-  }
-
-  return sortedEvents;
-};
 
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysList, events, dayTimeStamp = null, count = null) => {
@@ -76,7 +59,7 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
 };
 
 // Отрисовка событий, сгруппированным по дням
-const renderDays = (tripDaysList, groupedEvents) => {
+const renderEventsByDays = (tripDaysList, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
@@ -85,10 +68,10 @@ const renderDays = (tripDaysList, groupedEvents) => {
 };
 
 const renderEvents = (container, events) => {
-  const sortedEvents = getSortedEvents(events);
+  const sortedEvents = sortEvents(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
 
-  renderDays(container, groupedEvents);
+  renderEventsByDays(container, groupedEvents);
 };
 
 export default class TripController {
@@ -106,8 +89,23 @@ export default class TripController {
       return;
     }
 
-    this._tripSortComponent.setSortTypeChangeHandler();
     render(this._container.querySelector(`h2`), this._tripSortComponent, RenderPosition.AFTEREND);
+
+    this._tripSortComponent.setSortTypeChangeHandler(() => {
+      const sortedEvents = sortEvents(events, this._tripSortComponent.getSortType());
+      remove(this._tripDaysListComponent);
+
+      if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
+        const groupedEvents = groupEventsByDate(sortedEvents);
+        render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+        renderEventsByDays(this._tripDaysListComponent.getElement(), groupedEvents);
+      } else {
+        render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+        renderTripDayItem(this._tripDaysListComponent.getElement(), sortedEvents);
+      }
+
+    });
+
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     renderEvents(this._tripDaysListComponent.getElement(), events);
   }

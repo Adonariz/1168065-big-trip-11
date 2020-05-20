@@ -1,5 +1,5 @@
 import AbstractComponent from "../abstract-component";
-import {SortType} from "../../helpers/const";
+import {SortType} from "../../helpers/sort";
 
 const createTripSortTemplate = () => {
   return (
@@ -66,6 +66,13 @@ export default class TripSort extends AbstractComponent {
         }
 
         this._currentSortType = sortType;
+
+        if (this._currentSortType !== SortType.DEFAULT) {
+          this.getElement().querySelector(`.trip-sort__item--day`).textContent = ``;
+        } else {
+          this.getElement().querySelector(`.trip-sort__item--day`).textContent = `Day`;
+        }
+
         handler(this._currentSortType);
       });
   }

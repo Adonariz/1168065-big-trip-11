@@ -43,12 +43,6 @@ const EventType = {
   RESTAURANT: `restaurant`,
 };
 
-const SortType = {
-  DEFAULT: `sort-event`,
-  TIME: `sort-time`,
-  PRICE: `sort-price`
-};
-
 const TRANSFER_TYPES = [EventType.TAXI, EventType.BUS, EventType.TRAIN, EventType.SHIP, EventType.TRANSPORT, EventType.DRIVE, EventType.FLIGHT];
 const ACTIVITY_TYPES = [EventType.CHECK_IN, EventType.SIGHTSEEING, EventType.RESTAURANT];
 
@@ -81,4 +75,4 @@ const OFFER_PRICE = {
   'event-offer-train': 40
 };
 
-export {ESC_KEY, MONTH_NAMES, CITIES, STRINGS, SortType, TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE};
+export {ESC_KEY, MONTH_NAMES, CITIES, STRINGS, TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE};
