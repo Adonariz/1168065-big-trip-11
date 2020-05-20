@@ -7,8 +7,8 @@ import TripFilters from "./components/page-header/trip-filters";
 import NoEvents from "./components/page-main/events/no-events";
 import {getRandomEvents} from "./mocks/events";
 import TripController from "./controllers/trip";
-import Sort from "./components/page-main/trip-sort";
-import DaysList from "./components/page-main/days/trip-days-list";
+import TripSort from "./components/page-main/trip-sort";
+import TripDaysList from "./components/page-main/days/trip-days-list";
 import EventEdit from "./components/page-main/events/event-edit/event-edit";
 
 // Количество моков для рендера
@@ -59,8 +59,8 @@ const renderPage = (events) => {
 
   renderNewEventForm(events[0]);
 
-  const tripSortComponent = new Sort();
-  const daysListComponent = new DaysList();
+  const tripSortComponent = new TripSort();
+  const daysListComponent = new TripDaysList();
 
   render(tripEventsContainerChild, tripSortComponent, RenderPosition.AFTEREND);
   render(tripEventsContainer, daysListComponent, RenderPosition.BEFOREEND);

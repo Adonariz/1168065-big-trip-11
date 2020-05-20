@@ -1,8 +1,8 @@
 import {render, RenderPosition, replace} from "../helpers/render";
-import DayItem from "../components/page-main/days/trip-day";
+import TripDayItem from "../components/page-main/days/trip-day-item";
 import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";
-import Event from "../components/page-main/events/event-item";
+import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit/event-edit";
 import {ESC_KEY} from "../helpers/const";
 import {groupEventsByDate, sortEventsByDate} from "../helpers/utils";
@@ -11,7 +11,7 @@ const FORM_ID = 1;
 
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
-  const tripDayItemComponent = new DayItem(dayTimeStamp, count);
+  const tripDayItemComponent = new TripDayItem(dayTimeStamp, count);
   const tripDayItem = tripDayItemComponent.getElement();
 
   render(tripDaysList, tripDayItemComponent, RenderPosition.BEFOREEND);
@@ -22,7 +22,7 @@ const renderTripDayItem = (tripDaysList, dayTimeStamp, count, events) => {
   const eventsListItemComponent = new EventsListItem();
   render(eventsListComponent.getElement(), eventsListItemComponent, RenderPosition.BEFOREEND);
 
-  const eventComponents = events.map((event) => new Event(event));
+  const eventComponents = events.map((event) => new EventItem(event));
 
   renderTripDayEventsItem(eventsListItemComponent.getElement(), eventComponents);
 };

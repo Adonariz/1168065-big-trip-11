@@ -17,7 +17,7 @@ const createDayTemplate = (dayTimeStamp, count) => {
   );
 };
 
-export default class DayItem extends AbstractComponent {
+export default class TripDayItem extends AbstractComponent {
   constructor(dayTimeStamp, count) {
     super();
 
