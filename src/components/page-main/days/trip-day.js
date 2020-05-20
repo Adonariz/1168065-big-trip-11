@@ -1,5 +1,6 @@
-import {getISOStringDate, createElement} from "../../../helpers/utils";
+import {getISOStringDate} from "../../../helpers/utils";
 import {MONTH_NAMES} from "../../../helpers/const";
+import AbstractComponent from "../../abstract-component";
 
 const createDayTemplate = (dayTimeStamp, count) => {
   const date = new Date(dayTimeStamp);
@@ -16,26 +17,15 @@ const createDayTemplate = (dayTimeStamp, count) => {
   );
 };
 
-export default class DayItem {
+export default class DayItem extends AbstractComponent {
   constructor(dayTimeStamp, count) {
+    super();
+
     this._dayTimeStamp = dayTimeStamp;
     this._count = count;
-    this._element = null;
   }
 
   getTemplate() {
     return createDayTemplate(this._dayTimeStamp, this._count);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
