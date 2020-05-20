@@ -6,6 +6,9 @@ import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit/event-edit";
 import {ESC_KEY, SortType} from "../helpers/const";
 import {groupEventsByDate} from "../helpers/utils";
+import NoEvents from "../components/page-main/events/no-events";
+import TripSort from "../components/page-main/trip-sort";
+import TripDaysList from "../components/page-main/days/trip-days-list";
 
 const FORM_ID = 1;
 
@@ -91,9 +94,21 @@ const renderEvents = (container, events) => {
 export default class TripController {
   constructor(container) {
     this._container = container;
+
+    this._noEventsComponent = new NoEvents();
+    this._tripSortComponent = new TripSort();
+    this._tripDaysListComponent = new TripDaysList();
   }
 
   render(events) {
-    renderEvents(this._container, events);
+    if (events.length === 0) {
+      render(this._container.querySelector(`h2`), this._noEventsComponent, RenderPosition.AFTEREND);
+      return;
+    }
+
+    this._tripSortComponent.setSortTypeChangeHandler();
+    render(this._container.querySelector(`h2`), this._tripSortComponent, RenderPosition.AFTEREND);
+    render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
+    renderEvents(this._tripDaysListComponent.getElement(), events);
   }
 }
