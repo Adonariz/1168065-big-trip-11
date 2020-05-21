@@ -3,7 +3,7 @@ import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";
 import TripFilters from "./components/page-header/trip-filters";
-import TripController from "./controllers/trip";
+import TripController from "./controllers/trip-controller";
 import {getRandomEvents} from "./mocks/events";
 
 // Количество моков для рендера

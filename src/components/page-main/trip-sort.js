@@ -67,10 +67,12 @@ export default class TripSort extends AbstractComponent {
 
         this._currentSortType = sortType;
 
+        const daySortItem = this.getElement().querySelector(`.trip-sort__item--day`);
+
         if (this._currentSortType !== SortType.DEFAULT) {
-          this.getElement().querySelector(`.trip-sort__item--day`).textContent = ``;
+          daySortItem.textContent = ``;
         } else {
-          this.getElement().querySelector(`.trip-sort__item--day`).textContent = `Day`;
+          daySortItem.textContent = `Day`;
         }
 
         handler(this._currentSortType);

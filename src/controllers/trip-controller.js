@@ -13,11 +13,11 @@ import TripDaysList from "../components/page-main/days/trip-days-list";
 const FORM_ID = 1;
 
 // Отрисовка контейнера для группировки по дням
-const renderTripDayItem = (tripDaysList, events, dayTimeStamp = null, count = null) => {
+const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, count = null) => {
   const tripDayItemComponent = new TripDayItem(dayTimeStamp, count);
   const tripDayItem = tripDayItemComponent.getElement();
 
-  render(tripDaysList, tripDayItemComponent, RenderPosition.BEFOREEND);
+  render(tripDaysListComponent.getElement(), tripDayItemComponent, RenderPosition.BEFOREEND);
 
   const eventsListComponent = new EventsList();
   render(tripDayItem, eventsListComponent, RenderPosition.BEFOREEND);
@@ -59,19 +59,19 @@ const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
 };
 
 // Отрисовка событий, сгруппированным по дням
-const renderEventsByDays = (tripDaysList, groupedEvents) => {
+const renderEventsByDays = (tripDaysListComponent, groupedEvents) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    renderTripDayItem(tripDaysList, events, dayTimeStamp, ++index);
+    renderTripDayItem(tripDaysListComponent, events, dayTimeStamp, ++index);
   });
 };
 
-const renderEvents = (container, events) => {
+const renderEvents = (component, events) => {
   const sortedEvents = sortEvents(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
 
-  renderEventsByDays(container, groupedEvents);
+  renderEventsByDays(component, groupedEvents);
 };
 
 export default class TripController {
@@ -84,12 +84,14 @@ export default class TripController {
   }
 
   render(events) {
+    const tripSectionFirstChild = this._container.querySelector(`h2`);
+
     if (events.length === 0) {
-      render(this._container.querySelector(`h2`), this._noEventsComponent, RenderPosition.AFTEREND);
+      render(tripSectionFirstChild, this._noEventsComponent, RenderPosition.AFTEREND);
       return;
     }
 
-    render(this._container.querySelector(`h2`), this._tripSortComponent, RenderPosition.AFTEREND);
+    render(tripSectionFirstChild, this._tripSortComponent, RenderPosition.AFTEREND);
 
     this._tripSortComponent.setSortTypeChangeHandler(() => {
       const sortedEvents = sortEvents(events, this._tripSortComponent.getSortType());
@@ -98,15 +100,14 @@ export default class TripController {
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
         const groupedEvents = groupEventsByDate(sortedEvents);
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderEventsByDays(this._tripDaysListComponent.getElement(), groupedEvents);
+        renderEventsByDays(this._tripDaysListComponent, groupedEvents);
       } else {
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderTripDayItem(this._tripDaysListComponent.getElement(), sortedEvents);
+        renderTripDayItem(this._tripDaysListComponent, sortedEvents);
       }
-
     });
 
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-    renderEvents(this._tripDaysListComponent.getElement(), events);
+    renderEvents(this._tripDaysListComponent, events);
   }
 }
