@@ -40,38 +40,6 @@ const calcDuration = (start, end) => {
   );
 };
 
-const sortEventsByDate = (events) => {
-  return (
-    events.slice().sort((a, b) => a.date.start - b.date.start)
-  );
-};
-
-const groupEventsByDate = (events) => {
-  const eventsGroup = new Map();
-
-  events.forEach((it) => {
-    const startEventDate = new Date(it.date.start);
-
-    const startDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 0, 0, 0, 0);
-    const endDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 23, 59, 59, 999);
-
-    const startTimestampDay = startDay.getTime();
-    const endTimestampDay = endDay.getTime();
-
-    if (!eventsGroup.has(startTimestampDay)) {
-      const dayEvents = events.filter((event) => {
-        return (
-          startTimestampDay <= event.date.start.getTime() && event.date.start.getTime() <= endTimestampDay
-        );
-      });
-
-      eventsGroup.set(startTimestampDay, dayEvents);
-    }
-  });
-
-  return eventsGroup;
-};
-
 const capFirstLetter = (word) => word[0].toUpperCase() + word.slice(1);
 
-export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, sortEventsByDate, groupEventsByDate, capFirstLetter};
+export {castTimeFormat, formatTime24H, getStringDate, getISOStringDate, calcDuration, capFirstLetter};

@@ -1,4 +1,5 @@
 import AbstractComponent from "../abstract-component";
+import {SortType} from "../../helpers/sort";
 
 const createTripSortTemplate = () => {
   return (
@@ -6,12 +7,12 @@ const createTripSortTemplate = () => {
       <span class="trip-sort__item  trip-sort__item--day">Day</span>
 
       <div class="trip-sort__item  trip-sort__item--event">
-        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-event" checked>
+        <input id="sort-event" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="${SortType.DEFAULT}" checked>
         <label class="trip-sort__btn" for="sort-event">Event</label>
       </div>
 
       <div class="trip-sort__item  trip-sort__item--time">
-        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-time">
+        <input id="sort-time" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="${SortType.TIME}">
         <label class="trip-sort__btn" for="sort-time">
           Time
           <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">
@@ -21,7 +22,7 @@ const createTripSortTemplate = () => {
       </div>
 
       <div class="trip-sort__item  trip-sort__item--price">
-        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-price">
+        <input id="sort-price" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="${SortType.PRICE}">
         <label class="trip-sort__btn" for="sort-price">
           Price
           <svg class="trip-sort__direction-icon" width="8" height="10" viewBox="0 0 8 10">
@@ -35,8 +36,46 @@ const createTripSortTemplate = () => {
   );
 };
 
-export default class Sort extends AbstractComponent {
+export default class TripSort extends AbstractComponent {
+  constructor() {
+    super();
+
+    this._currentSortType = SortType.DEFAULT;
+  }
   getTemplate() {
     return createTripSortTemplate();
+  }
+
+  getSortType() {
+    return this._currentSortType;
+  }
+
+  setSortTypeChangeHandler(handler) {
+    this.getElement()
+      .addEventListener(`change`, (evt) => {
+        evt.preventDefault();
+
+        if (evt.target.tagName !== `INPUT`) {
+          return;
+        }
+
+        const sortType = evt.target.value;
+
+        if (this._currentSortType === sortType) {
+          return;
+        }
+
+        this._currentSortType = sortType;
+
+        const daySortItem = this.getElement().querySelector(`.trip-sort__item--day`);
+
+        if (this._currentSortType !== SortType.DEFAULT) {
+          daySortItem.textContent = ``;
+        } else {
+          daySortItem.textContent = `Day`;
+        }
+
+        handler(this._currentSortType);
+      });
   }
 }

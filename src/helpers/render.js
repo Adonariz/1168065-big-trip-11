@@ -37,8 +37,9 @@ const replace = (newComponent, oldComponent) => {
   }
 };
 
-const remove = (element) => {
-  element.remove();
+const remove = (component) => {
+  component.getElement().remove();
+  component.removeElement();
 };
 
 export {createElement, RenderPosition, render, replace, remove};
