@@ -29,13 +29,6 @@ const renderHeader = () => {
   render(tripControls, tripFiltersComponent, RenderPosition.BEFOREEND);
 };
 
-// Форма редактирования события
-// const renderNewEventForm = (event) => {
-//   const eventEditComponent = new EventEdit(event, FORM_ID);
-//   render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
-// };
-
-// const emptyEvents = [];
 const tripController = new TripController(tripEventsContainer);
 
 renderHeader();
