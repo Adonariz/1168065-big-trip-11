@@ -1,7 +1,19 @@
 import {calcDuration, formatTime24H, getISOStringDate} from "../../../utils/common";
-import {EVENT_TYPE_PREFIX} from "../../../utils/const";
-import {createOfferItemTemplate} from "./event-offer";
+import {EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE} from "../../../utils/const";
 import AbstractComponent from "../../abstract-component";
+
+const createOfferItemTemplate = (offer) => {
+  const offerTitle = OFFER_NAME[offer.name];
+  const offerPrice = OFFER_PRICE[offer.name];
+
+  return (
+    `<li class="event__offer">
+      <span class="event__offer-title">${offerTitle}</span>
+      &plus;
+      &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+    </li>`
+  );
+};
 
 const createEventTemplate = (event) => {
   const {date, type, city, price, offers} = event;

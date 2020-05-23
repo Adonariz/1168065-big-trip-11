@@ -1,10 +1,47 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES} from "../../../../utils/const";
-import {getStringDate, formatTime24H} from "../../../../utils/common";
-import {createOfferCheckboxTemplate} from "../event-offer";
-import {createEventTypeItemTemplate} from "./event-type-item";
-import {createDestinationItemTemplate} from "./destination-item";
-import {createEventPhotoTemplate} from "./event-photo";
-import AbstractComponent from "../../../abstract-component";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES, OFFER_NAME, OFFER_PRICE} from "../../../utils/const";
+import {getStringDate, formatTime24H, capFirstLetter} from "../../../utils/common";
+import AbstractComponent from "../../abstract-component";
+
+const createEventTypeItemTemplate = (type, isChecked, id) => {
+  const eventTypeString = capFirstLetter(type);
+  const checked = `${type}" ${isChecked ? `checked` : ``}`;
+
+  return (
+    `<div class="event__type-item">
+      <input id="event-type-${type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}" ${checked}>
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-${id}">${eventTypeString}</label>
+    </div>`
+  );
+};
+
+const createDestinationItemTemplate = (city) => {
+  return (
+    `<option value="${city}"></option>`
+  );
+};
+
+const createOfferCheckboxTemplate = (offer, formCount) => {
+  const checked = `${offer.isChecked ? `checked` : ``}`;
+  const offerTitle = OFFER_NAME[offer.name];
+  const offerPrice = OFFER_PRICE[offer.name];
+
+  return (
+    `<div class="event__offer-selector">
+      <input class="event__offer-checkbox  visually-hidden" id="${offer.name}-${formCount}" type="checkbox" name="${offer}" ${checked}>
+      <label class="event__offer-label" for="${offer.name}-${formCount}">
+        <span class="event__offer-title">${offerTitle}</span>
+        &plus;
+        &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+      </label>
+    </div>`
+  );
+};
+
+const createEventPhotoTemplate = (src) => {
+  return (
+    `<img class="event__photo" src="${src}" alt="Event photo">`
+  );
+};
 
 const createEventEditTemplate = (event) => {
   const {id, date, destination, type, city, price, isFavorite, offers, photos} = event;

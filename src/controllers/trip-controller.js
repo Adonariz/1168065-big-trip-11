@@ -5,7 +5,7 @@ import TripDayItem from "../components/page-main/days/trip-day-item";
 import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";
 import EventItem from "../components/page-main/events/event-item";
-import EventEdit from "../components/page-main/events/event-edit/event-edit";
+import EventEdit from "../components/page-main/events/event-edit";
 import NoEvents from "../components/page-main/events/no-events";
 import TripSort from "../components/page-main/trip-sort";
 import TripDaysList from "../components/page-main/days/trip-days-list";
