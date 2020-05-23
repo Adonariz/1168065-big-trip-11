@@ -10,8 +10,6 @@ import NoEvents from "../components/page-main/events/no-events";
 import TripSort from "../components/page-main/trip-sort";
 import TripDaysList from "../components/page-main/days/trip-days-list";
 
-const FORM_ID = 1;
-
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, count = null) => {
   const tripDayItemComponent = new TripDayItem(dayTimeStamp, count);
@@ -32,7 +30,7 @@ const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, c
 
 const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
   eventComponents.forEach((eventComponent) => {
-    const eventEditComponent = new EventEdit(eventComponent.getData(), FORM_ID);
+    const eventEditComponent = new EventEdit(eventComponent.getData());
 
     const replaceEventToEdit = () => {
       replace(eventEditComponent, eventComponent);

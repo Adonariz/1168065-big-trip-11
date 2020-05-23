@@ -61,10 +61,12 @@ const getRandomPhotos = () => {
   return photos;
 };
 
-const getRandomEvent = () => {
+const getRandomEvent = (index) => {
   const randomDate = getRandomStartDate();
   const randomEndDate = getRandomEndDate(randomDate);
+
   return {
+    id: index,
     date: {
       start: randomDate,
       end: randomEndDate
@@ -82,7 +84,7 @@ const getRandomEvent = () => {
 const getRandomEvents = (count) => {
   return new Array(count)
     .fill(``)
-    .map(getRandomEvent);
+    .map((randomEvent, index) => getRandomEvent(++index));
 };
 
 export {getRandomEvent, getRandomEvents};

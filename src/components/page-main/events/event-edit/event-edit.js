@@ -6,13 +6,13 @@ import {createDestinationItemTemplate} from "./destination-item";
 import {createEventPhotoTemplate} from "./event-photo";
 import AbstractComponent from "../../../abstract-component";
 
-const createEventEditTemplate = (event, formID) => {
-  const {date, destination, type, city, price, isFavorite, offers, photos} = event;
+const createEventEditTemplate = (event) => {
+  const {id, date, destination, type, city, price, isFavorite, offers, photos} = event;
   const transferTypesFieldsetItems = TRANSFER_TYPES
-    .map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, formID))
+    .map((typeItem) => createEventTypeItemTemplate(typeItem, typeItem === type, id))
     .join(`\n`);
   const activityTypesFieldsetItems = ACTIVITY_TYPES
-    .map((activityItem) => createEventTypeItemTemplate(activityItem, activityItem === type, formID))
+    .map((activityItem) => createEventTypeItemTemplate(activityItem, activityItem === type, id))
     .join(`\n`);
   const eventType = EVENT_TYPE_PREFIX[type];
   const destinationItems = CITIES
@@ -21,7 +21,7 @@ const createEventEditTemplate = (event, formID) => {
   const eventStartTime = `${getStringDate(date.start)} ${formatTime24H(date.start)}`;
   const eventEndTime = `${getStringDate(date.end)} ${formatTime24H(date.end)}`;
   const favorite = `${isFavorite ? `checked` : ``}`;
-  const offersCheckboxes = offers.map((offer) => createOfferCheckboxTemplate(offer, formID)).join(`\n`);
+  const offersCheckboxes = offers.map((offer) => createOfferCheckboxTemplate(offer, id)).join(`\n`);
   const eventPhotos = photos
     .map((photo) => createEventPhotoTemplate(photo))
     .join(`\n`);
@@ -30,11 +30,11 @@ const createEventEditTemplate = (event, formID) => {
     `<form class="trip-events__item event event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
-          <label class="event__type  event__type-btn" for="event-type-toggle-${formID}">
+          <label class="event__type  event__type-btn" for="event-type-toggle-${id}">
             <span class="visually-hidden">Choose event type</span>
             <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
           </label>
-          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${formID}" type="checkbox">
+          <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${id}" type="checkbox">
 
           <div class="event__type-list">
             <fieldset class="event__type-group">
@@ -49,40 +49,40 @@ const createEventEditTemplate = (event, formID) => {
         </div>
 
         <div class="event__field-group  event__field-group--destination">
-          <label class="event__label  event__type-output" for="event-destination-${formID}">
+          <label class="event__label  event__type-output" for="event-destination-${id}">
             ${eventType}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-${formID}" type="text" name="event-destination" value="${city}" list="destination-list-${formID}">
-          <datalist id="destination-list-${formID}">
+          <input class="event__input  event__input--destination" id="event-destination-${id}" type="text" name="event-destination" value="${city}" list="destination-list-${id}">
+          <datalist id="destination-list-${id}">
             ${destinationItems}
           </datalist>
         </div>
 
         <div class="event__field-group  event__field-group--time">
-          <label class="visually-hidden" for="event-start-time-${formID}">
+          <label class="visually-hidden" for="event-start-time-${id}">
             From
           </label>
-          <input class="event__input  event__input--time" id="event-start-time-${formID}" type="text" name="event-start-time" value="${eventStartTime}">
+          <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${eventStartTime}">
           &mdash;
-          <label class="visually-hidden" for="event-end-time-${formID}">
+          <label class="visually-hidden" for="event-end-time-${id}">
             To
           </label>
-          <input class="event__input  event__input--time" id="event-end-time-${formID}" type="text" name="event-end-time" value="${eventEndTime}">
+          <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${eventEndTime}">
         </div>
 
         <div class="event__field-group  event__field-group--price">
-          <label class="event__label" for="event-price-${formID}">
+          <label class="event__label" for="event-price-${id}">
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-${formID}" type="text" name="event-price" value="${price}">
+          <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${price}">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Delete</button>
 
-        <input id="event-favorite-${formID}" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${favorite}>
-        <label class="event__favorite-btn" for="event-favorite-${formID}">
+        <input id="event-favorite-${id}" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${favorite}>
+        <label class="event__favorite-btn" for="event-favorite-${id}">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
             <path d="M14 21l-8.22899 4.3262 1.57159-9.1631L.685209 9.67376 9.8855 8.33688 14 0l4.1145 8.33688 9.2003 1.33688-6.6574 6.48934 1.5716 9.1631L14 21z"/>
@@ -117,15 +117,14 @@ const createEventEditTemplate = (event, formID) => {
 };
 
 export default class EventEdit extends AbstractComponent {
-  constructor(event, formID) {
+  constructor(event) {
     super();
 
     this._event = event;
-    this._formID = formID;
   }
 
   getTemplate() {
-    return createEventEditTemplate(this._event, this._formID);
+    return createEventEditTemplate(this._event);
   }
 
   setSubmitHandler(handler) {

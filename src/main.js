@@ -7,7 +7,6 @@ import TripController from "./controllers/trip-controller";
 import {getRandomEvents} from "./mocks/events";
 
 // Количество моков для рендера
-// const FORM_ID = 1;
 const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
