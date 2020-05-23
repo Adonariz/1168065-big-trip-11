@@ -1,4 +1,4 @@
-import {render, RenderPosition} from "./helpers/render";
+import {render, RenderPosition} from "./utils/render";
 import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";

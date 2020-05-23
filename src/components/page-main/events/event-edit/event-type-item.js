@@ -1,4 +1,4 @@
-import {capFirstLetter} from "../../../../helpers/utils";
+import {capFirstLetter} from "../../../../utils/common";
 
 const createEventTypeItemTemplate = (type, isChecked, formID) => {
   const eventTypeString = capFirstLetter(type);

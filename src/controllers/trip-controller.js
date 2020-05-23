@@ -1,6 +1,6 @@
-import {remove, render, RenderPosition, replace} from "../helpers/render";
-import {SortType, groupEventsByDate, sortEvents} from "../helpers/sort";
-import {ESC_KEY} from "../helpers/const";
+import {remove, render, RenderPosition, replace} from "../utils/render";
+import {SortType, groupEventsByDate, sortEvents} from "../utils/sort";
+import {ESC_KEY} from "../utils/const";
 import TripDayItem from "../components/page-main/days/trip-day-item";
 import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";

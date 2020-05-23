@@ -1,4 +1,4 @@
-import {TRANSFER_TYPES, CITIES, STRINGS, ACTIVITY_TYPES, OFFER_NAME} from "../helpers/const";
+import {TRANSFER_TYPES, CITIES, STRINGS, ACTIVITY_TYPES, OFFER_NAME} from "../utils/const";
 
 const eventTypes = TRANSFER_TYPES.concat(ACTIVITY_TYPES);
 const offers = Object

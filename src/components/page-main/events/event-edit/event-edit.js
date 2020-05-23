@@ -1,5 +1,5 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES} from "../../../../helpers/const";
-import {getStringDate, formatTime24H} from "../../../../helpers/utils";
+import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES} from "../../../../utils/const";
+import {getStringDate, formatTime24H} from "../../../../utils/common";
 import {createOfferCheckboxTemplate} from "../event-offer";
 import {createEventTypeItemTemplate} from "./event-type-item";
 import {createDestinationItemTemplate} from "./destination-item";
