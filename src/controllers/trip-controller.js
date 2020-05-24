@@ -1,14 +1,12 @@
-import {remove, render, RenderPosition, replace} from "../utils/render";
+import {remove, render, RenderPosition} from "../utils/render";
 import {SortType, groupEventsByDate, sortEvents} from "../utils/sort";
-import {ESC_KEY} from "../utils/const";
 import TripDayItem from "../components/page-main/days/trip-day-item";
 import EventsList from "../components/page-main/events/events-list";
 import EventsListItem from "../components/page-main/events/events-list-item";
-import EventItem from "../components/page-main/events/event-item";
-import EventEdit from "../components/page-main/events/event-edit";
 import NoEvents from "../components/page-main/events/no-events";
 import TripSort from "../components/page-main/trip-sort";
 import TripDaysList from "../components/page-main/days/trip-days-list";
+import PointController from "./point-controller";
 
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, count = null) => {
@@ -28,30 +26,8 @@ const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, c
 
 const renderTripDayEventsItem = (eventsListItem, events) => {
   events.forEach((event) => {
-    const eventComponent = new EventItem(event);
-    const eventEditComponent = new EventEdit(event);
-
-    const replaceEventToEdit = () => {
-      replace(eventEditComponent, eventComponent);
-      document.addEventListener(`keydown`, onEscKeyDown);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === ESC_KEY) {
-        replaceEditToEvent();
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-
-    const replaceEditToEvent = () => {
-      replace(eventComponent, eventEditComponent);
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    };
-
-    eventComponent.setEditButtonClickHandler(replaceEventToEdit);
-    eventEditComponent.setSubmitHandler(replaceEditToEvent);
-
-    render(eventsListItem, eventComponent, RenderPosition.BEFOREEND);
+    const pointController = new PointController(eventsListItem);
+    pointController.render(event);
   });
 };
 
