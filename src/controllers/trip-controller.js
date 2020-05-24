@@ -23,14 +23,13 @@ const renderTripDayItem = (tripDaysListComponent, events, dayTimeStamp = null, c
   const eventsListItemComponent = new EventsListItem();
   render(eventsListComponent.getElement(), eventsListItemComponent, RenderPosition.BEFOREEND);
 
-  const eventComponents = events.map((event) => new EventItem(event));
-
-  renderTripDayEventsItem(eventsListItemComponent.getElement(), eventComponents);
+  renderTripDayEventsItem(eventsListItemComponent.getElement(), events);
 };
 
-const renderTripDayEventsItem = (eventsListItem, eventComponents) => {
-  eventComponents.forEach((eventComponent) => {
-    const eventEditComponent = new EventEdit(eventComponent.getData());
+const renderTripDayEventsItem = (eventsListItem, events) => {
+  events.forEach((event) => {
+    const eventComponent = new EventItem(event);
+    const eventEditComponent = new EventEdit(event);
 
     const replaceEventToEdit = () => {
       replace(eventEditComponent, eventComponent);
@@ -108,4 +107,6 @@ export default class TripController {
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     renderEvents(this._tripDaysListComponent, events);
   }
+
+
 }
