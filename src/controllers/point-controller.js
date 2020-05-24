@@ -26,6 +26,10 @@ export default class PointController {
       this._replaceEditToTask();
     });
 
+    this._eventEditComponent.setFavoriteButtonHandler(() => {
+
+    });
+
     render(this._container, this._eventComponent, RenderPosition.BEFOREEND);
   }
 

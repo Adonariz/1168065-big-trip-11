@@ -83,6 +83,4 @@ export default class TripController {
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     renderEvents(this._tripDaysListComponent, events);
   }
-
-
 }
