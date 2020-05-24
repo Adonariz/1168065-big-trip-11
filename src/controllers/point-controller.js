@@ -4,11 +4,13 @@ import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit";
 
 export default class PointController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
 
     this._eventComponent = null;
     this._eventEditComponent = null;
+
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
@@ -27,7 +29,9 @@ export default class PointController {
     });
 
     this._eventEditComponent.setFavoriteButtonHandler(() => {
-
+      this._onDataChange(this, event, Object.assign({}, event, {
+        isFavorite: !event.isFavorite,
+      }));
     });
 
     render(this._container, this._eventComponent, RenderPosition.BEFOREEND);
