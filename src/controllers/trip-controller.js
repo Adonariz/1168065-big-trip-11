@@ -25,9 +25,11 @@ const renderTripDayItem = (tripDaysListComponent, events, onDataChange, onViewCh
 };
 
 const renderTripDayEventsItem = (eventsListItem, events, onDataChange, onViewChange) => {
-  events.forEach((event) => {
+  return events.map((event) => {
     const pointController = new PointController(eventsListItem, onDataChange, onViewChange);
     pointController.render(event);
+
+    return pointController;
   });
 };
 
@@ -91,6 +93,7 @@ export default class TripController {
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     const newEvents = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
     this._showedPointControllers = this._showedPointControllers.concat(newEvents);
+    console.log(this._showedPointControllers);
   }
 
   _onDataChange(pointController, oldData, newData) {
