@@ -9,7 +9,7 @@ import TripDaysList from "../components/page-main/days/trip-days-list";
 import PointController from "./point-controller";
 
 // Отрисовка контейнера для группировки по дням
-const renderTripDayItem = (tripDaysListComponent, events, onDataChange, dayTimeStamp = null, count = null) => {
+const renderTripDayItem = (tripDaysListComponent, events, onDataChange, onViewChange, dayTimeStamp = null, count = null) => {
   const tripDayItemComponent = new TripDayItem(dayTimeStamp, count);
   const tripDayItem = tripDayItemComponent.getElement();
 
@@ -21,30 +21,30 @@ const renderTripDayItem = (tripDaysListComponent, events, onDataChange, dayTimeS
   const eventsListItemComponent = new EventsListItem();
   render(eventsListComponent.getElement(), eventsListItemComponent, RenderPosition.BEFOREEND);
 
-  renderTripDayEventsItem(eventsListItemComponent.getElement(), events, onDataChange);
+  renderTripDayEventsItem(eventsListItemComponent.getElement(), events, onDataChange, onViewChange);
 };
 
-const renderTripDayEventsItem = (eventsListItem, events, onDataChange) => {
+const renderTripDayEventsItem = (eventsListItem, events, onDataChange, onViewChange) => {
   events.forEach((event) => {
-    const pointController = new PointController(eventsListItem, onDataChange);
+    const pointController = new PointController(eventsListItem, onDataChange, onViewChange);
     pointController.render(event);
   });
 };
 
 // Отрисовка событий, сгруппированным по дням
-const renderEventsByDays = (tripDaysListComponent, groupedEvents, onDataChange) => {
+const renderEventsByDays = (tripDaysListComponent, groupedEvents, onDataChange, onViewChange) => {
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    renderTripDayItem(tripDaysListComponent, events, onDataChange, dayTimeStamp, ++index);
+    renderTripDayItem(tripDaysListComponent, events, onDataChange, onViewChange, dayTimeStamp, ++index);
   });
 };
 
-const renderEvents = (component, events, onDataChange) => {
+const renderEvents = (component, events, onDataChange, onViewChange) => {
   const sortedEvents = sortEvents(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
 
-  renderEventsByDays(component, groupedEvents, onDataChange);
+  renderEventsByDays(component, groupedEvents, onDataChange, onViewChange);
 };
 
 export default class TripController {
@@ -52,12 +52,14 @@ export default class TripController {
     this._container = container;
 
     this._events = [];
+    this._showedPointControllers = [];
 
     this._noEventsComponent = new NoEvents();
     this._tripSortComponent = new TripSort();
     this._tripDaysListComponent = new TripDaysList();
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(events) {
@@ -79,15 +81,16 @@ export default class TripController {
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
         const groupedEvents = groupEventsByDate(sortedEvents);
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderEventsByDays(this._tripDaysListComponent, groupedEvents);
+        renderEventsByDays(this._tripDaysListComponent, groupedEvents, this._onDataChange, this._onViewChange);
       } else {
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderTripDayItem(this._tripDaysListComponent, sortedEvents);
+        renderTripDayItem(this._tripDaysListComponent, sortedEvents, this._onDataChange, this._onViewChange);
       }
     });
 
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-    renderEvents(this._tripDaysListComponent, events, this._onDataChange);
+    const newEvents = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
+    this._showedPointControllers = this._showedPointControllers.concat(newEvents);
   }
 
   _onDataChange(pointController, oldData, newData) {
@@ -100,5 +103,9 @@ export default class TripController {
     this._events = [].concat(this._events.slice(0, index), newData, this._events.slice(index + 1));
 
     pointController.render(this._events[index]);
+  }
+
+  _onViewChange() {
+    this._showedPointControllers.forEach((pointController) => pointController.setDefaultView());
   }
 }

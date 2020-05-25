@@ -9,14 +9,14 @@ const ViewMode = {
 };
 
 export default class PointController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+    this._viewMode = ViewMode.DEFAULT;
 
     this._eventComponent = null;
     this._eventEditComponent = null;
-
-    this._viewMode = ViewMode.DEFAULT;
 
     this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
@@ -66,6 +66,7 @@ export default class PointController {
   }
 
   _replaceEventToEdit() {
+    this._onViewChange();
     replace(this._eventEditComponent, this._eventComponent);
     this._viewMode = ViewMode.EDIT;
   }
