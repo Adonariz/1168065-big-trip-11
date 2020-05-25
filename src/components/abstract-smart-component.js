@@ -2,7 +2,7 @@ import AbstractComponent from "./abstract-component";
 
 export default class AbstractSmartComponent extends AbstractComponent {
   recoverListeners() {
-    throw new Error(`Abstract method not implemented: recoveryListeners`);
+    throw new Error(`Abstract method not implemented: recoverListeners`);
   }
 
   rerender() {

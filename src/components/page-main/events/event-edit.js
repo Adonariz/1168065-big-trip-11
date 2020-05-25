@@ -1,6 +1,6 @@
 import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES, OFFER_NAME, OFFER_PRICE} from "../../../utils/const";
 import {getStringDate, formatTime24H, capFirstLetter} from "../../../utils/common";
-import AbstractComponent from "../../abstract-component";
+import AbstractSmartComponent from "../../abstract-smart-component";
 
 const createEventTypeItemTemplate = (type, isChecked, id) => {
   const eventTypeString = capFirstLetter(type);
@@ -153,25 +153,61 @@ const createEventEditTemplate = (event) => {
   );
 };
 
-export default class EventEdit extends AbstractComponent {
+export default class EventEdit extends AbstractSmartComponent {
   constructor(event) {
     super();
 
     this._event = event;
+    this._type = event.type;
+    this._city = event.city;
+    this._placeholder = EVENT_TYPE_PREFIX[this._type];
+    this._submitHandler = null;
+    this._favoriteButtonHandler = null;
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
     return createEventEditTemplate(this._event);
   }
 
+  rerender() {
+    super.rerender();
+  }
+
   setSubmitHandler(handler) {
+    this._submitHandler = handler;
     this.getElement()
-      .addEventListener(`submit`, handler);
+      .addEventListener(`submit`, this._submitHandler);
   }
 
   setFavoriteButtonHandler(handler) {
+    this._favoriteButtonHandler = handler;
     this.getElement()
       .querySelector(`.event__favorite-btn`)
-      .addEventListener(`click`, handler);
+      .addEventListener(`click`, this._favoriteButtonHandler);
+  }
+
+  recoverListeners() {
+    this.setSubmitHandler(this._submitHandler);
+    this._subscribeOnEvents();
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`.event__type-list`)
+      .addEventListener(`change`, (evt) => {
+        this._type = evt.target.value;
+        this._placeholder = EVENT_TYPE_PREFIX[this._type];
+
+        this.rerender();
+      });
+
+    element.querySelector(`.event__input--destination`)
+      .addEventListener(`change`, (evt) => {
+        this._city = evt.target.value;
+
+        this.rerender();
+      });
   }
 }
