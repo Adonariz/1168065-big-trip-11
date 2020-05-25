@@ -21,7 +21,7 @@ const renderTripDayItem = (tripDaysListComponent, events, onDataChange, onViewCh
   const eventsListItemComponent = new EventsListItem();
   render(eventsListComponent.getElement(), eventsListItemComponent, RenderPosition.BEFOREEND);
 
-  renderTripDayEventsItem(eventsListItemComponent.getElement(), events, onDataChange, onViewChange);
+  return renderTripDayEventsItem(eventsListItemComponent.getElement(), events, onDataChange, onViewChange);
 };
 
 const renderTripDayEventsItem = (eventsListItem, events, onDataChange, onViewChange) => {
@@ -35,18 +35,22 @@ const renderTripDayEventsItem = (eventsListItem, events, onDataChange, onViewCha
 
 // Отрисовка событий, сгруппированным по дням
 const renderEventsByDays = (tripDaysListComponent, groupedEvents, onDataChange, onViewChange) => {
+  let controllers = [];
+
   Array.from(groupedEvents.entries()).forEach((groupEvent, index) => {
     const [dayTimeStamp, events] = groupEvent;
 
-    renderTripDayItem(tripDaysListComponent, events, onDataChange, onViewChange, dayTimeStamp, ++index);
+    controllers = controllers.concat(renderTripDayItem(tripDaysListComponent, events, onDataChange, onViewChange, dayTimeStamp, ++index));
   });
+
+  return controllers;
 };
 
 const renderEvents = (component, events, onDataChange, onViewChange) => {
   const sortedEvents = sortEvents(events);
   const groupedEvents = groupEventsByDate(sortedEvents);
 
-  renderEventsByDays(component, groupedEvents, onDataChange, onViewChange);
+  return renderEventsByDays(component, groupedEvents, onDataChange, onViewChange);
 };
 
 export default class TripController {
@@ -81,19 +85,16 @@ export default class TripController {
       remove(this._tripDaysListComponent);
 
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
-        const groupedEvents = groupEventsByDate(sortedEvents);
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderEventsByDays(this._tripDaysListComponent, groupedEvents, this._onDataChange, this._onViewChange);
+        this._showedPointControllers = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
       } else {
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-        renderTripDayItem(this._tripDaysListComponent, sortedEvents, this._onDataChange, this._onViewChange);
+        this._showedPointControllers = renderTripDayItem(this._tripDaysListComponent, sortedEvents, this._onDataChange, this._onViewChange);
       }
     });
 
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
-    const newEvents = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
-    this._showedPointControllers = this._showedPointControllers.concat(newEvents);
-    console.log(this._showedPointControllers);
+    this._showedPointControllers = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
   }
 
   _onDataChange(pointController, oldData, newData) {
