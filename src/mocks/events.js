@@ -1,7 +1,7 @@
 import {TRANSFER_TYPES, CITIES, STRINGS, ACTIVITY_TYPES, OFFER_NAME} from "../utils/const";
 
 const eventTypes = TRANSFER_TYPES.concat(ACTIVITY_TYPES);
-const offers = Object
+const eventOffers = Object
   .keys(OFFER_NAME)
   .map((item) => {
     return (item = {
@@ -46,6 +46,12 @@ const getRandomDestination = (strings) => {
   return destinations.join(` `);
 };
 
+const getRandomOffers = (offers) => {
+  return offers.slice(getRandomIntegerNumber(0, 5));
+};
+
+getRandomOffers(eventOffers);
+
 const getRandomPhoto = () => {
   return (
     `img/photos/${getRandomIntegerNumber(1, 5)}.jpg`
@@ -75,7 +81,7 @@ const getRandomEvent = (index) => {
     city: getRandomArrayItem(CITIES),
     price: getRandomIntegerNumber(5, 160),
     isFavorite: Math.random() > 0.5,
-    offers: offers.slice(getRandomIntegerNumber(0, 5)),
+    offers: getRandomOffers(eventOffers),
     destination: getRandomDestination(STRINGS),
     photos: getRandomPhotos(),
   };
@@ -87,4 +93,4 @@ const getRandomEvents = (count) => {
     .map((randomEvent, index) => getRandomEvent(++index));
 };
 
-export {getRandomEvent, getRandomEvents};
+export {eventOffers, getRandomOffers, getRandomDestination, getRandomEvent, getRandomEvents};

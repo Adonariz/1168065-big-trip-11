@@ -1,6 +1,15 @@
-import {TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, CITIES, OFFER_NAME, OFFER_PRICE} from "../../../utils/const";
+import {
+  TRANSFER_TYPES,
+  ACTIVITY_TYPES,
+  EVENT_TYPE_PREFIX,
+  CITIES,
+  OFFER_NAME,
+  OFFER_PRICE,
+  STRINGS,
+} from "../../../utils/const";
 import {getStringDate, formatTime24H, capFirstLetter} from "../../../utils/common";
 import AbstractSmartComponent from "../../abstract-smart-component";
+import {eventOffers, getRandomDestination, getRandomOffers} from "../../../mocks/events";
 
 const createEventTypeItemTemplate = (type, isChecked, id) => {
   const eventTypeString = capFirstLetter(type);
@@ -20,15 +29,15 @@ const createDestinationItemTemplate = (city) => {
   );
 };
 
-const createOfferCheckboxTemplate = (offer, formCount) => {
+const createOfferCheckboxTemplate = (offer, id) => {
   const checked = `${offer.isChecked ? `checked` : ``}`;
   const offerTitle = OFFER_NAME[offer.name];
   const offerPrice = OFFER_PRICE[offer.name];
 
   return (
     `<div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="${offer.name}-${formCount}" type="checkbox" name="${offer}" ${checked}>
-      <label class="event__offer-label" for="${offer.name}-${formCount}">
+      <input class="event__offer-checkbox  visually-hidden" id="${offer.name}-${id}" type="checkbox" name="${offer}" ${checked}>
+      <label class="event__offer-label" for="${offer.name}-${id}">
         <span class="event__offer-title">${offerTitle}</span>
         &plus;
         &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
@@ -200,12 +209,26 @@ export default class EventEdit extends AbstractSmartComponent {
         this._type = evt.target.value;
         this._placeholder = EVENT_TYPE_PREFIX[this._type];
 
+        const newEvent = Object.assign({}, this._event, {
+          type: this._type,
+          offers: getRandomOffers(eventOffers),
+        });
+
+        this._event = newEvent;
+
         this.rerender();
       });
 
     element.querySelector(`.event__input--destination`)
       .addEventListener(`change`, (evt) => {
         this._city = evt.target.value;
+
+        const newEvent = Object.assign({}, this._event, {
+          city: this._city,
+          destination: getRandomDestination(STRINGS),
+        });
+
+        this._event = newEvent;
 
         this.rerender();
       });
