@@ -50,7 +50,6 @@ export default class PointController {
     } else {
       render(this._container, this._eventComponent, RenderPosition.BEFOREEND);
     }
-
   }
 
   setDefaultView() {

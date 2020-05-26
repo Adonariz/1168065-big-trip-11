@@ -190,7 +190,7 @@ export default class EventEdit extends AbstractSmartComponent {
   rerender() {
     super.rerender();
 
-    // this._applyFlatpickr();
+    this.applyFlatpickr();
   }
 
   removeElement() {
