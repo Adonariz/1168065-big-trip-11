@@ -1,4 +1,4 @@
-import {calcDuration, formatTime24H, getISOStringDate} from "../../../utils/common";
+import {getDurationString, formatTime24H, getISOStringDate} from "../../../utils/common";
 import {EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE} from "../../../utils/const";
 import AbstractComponent from "../../abstract-component";
 
@@ -18,7 +18,7 @@ const createOfferItemTemplate = (offer) => {
 const createEventTemplate = (event) => {
   const {date, type, city, price, offers} = event;
   const eventType = EVENT_TYPE_PREFIX[type];
-  const duration = calcDuration(date.start, date.end);
+  const duration = getDurationString(date.start, date.end);
   const isoDateTimeStart = getISOStringDate(date.start).slice(0, 16);
   const isoDateTimeEnd = getISOStringDate(date.end).slice(0, 16);
   const dateTimeStart24H = formatTime24H(date.start);
