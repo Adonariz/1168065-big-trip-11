@@ -178,7 +178,7 @@ export default class EventEdit extends AbstractSmartComponent {
 
     this._flatpickrStart = null;
     this._flatpickrEnd = null;
-    this._applyFlatpickr();
+    // this._applyFlatpickr();
 
     this._subscribeOnEvents();
   }
@@ -190,7 +190,7 @@ export default class EventEdit extends AbstractSmartComponent {
   rerender() {
     super.rerender();
 
-    this._applyFlatpickr();
+    // this._applyFlatpickr();
   }
 
   removeElement() {
@@ -225,7 +225,14 @@ export default class EventEdit extends AbstractSmartComponent {
     this._subscribeOnEvents();
   }
 
-  _applyFlatpickr() {
+  removeFlatpickr() {
+    this._flatpickrStart.destroy();
+    this._flatpickrStart = null;
+    this._flatpickrEnd.destroy();
+    this._flatpickrEnd = null;
+  }
+
+  applyFlatpickr() {
     const dateStartInput = this.getElement().querySelector(`[name="event-start-time"]`);
     this._flatpickrStart = flatpickr(dateStartInput, {
       enableTime: true,
@@ -236,7 +243,7 @@ export default class EventEdit extends AbstractSmartComponent {
     });
 
     const dateEndInput = this.getElement().querySelector(`[name="event-end-time"]`);
-    this._flatpickrStart = flatpickr(dateEndInput, {
+    this._flatpickrEnd = flatpickr(dateEndInput, {
       enableTime: true,
       altFormat: `d/m/y H:i`,
       altInput: true,

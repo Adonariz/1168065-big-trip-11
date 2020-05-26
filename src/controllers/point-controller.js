@@ -63,12 +63,14 @@ export default class PointController {
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     replace(this._eventComponent, this._eventEditComponent);
     this._viewMode = ViewMode.DEFAULT;
+    this._eventEditComponent.removeFlatpickr();
   }
 
   _replaceEventToEdit() {
     this._onViewChange();
     replace(this._eventEditComponent, this._eventComponent);
     this._viewMode = ViewMode.EDIT;
+    this._eventEditComponent.applyFlatpickr();
   }
 
   _onEscKeyDown(evt) {
