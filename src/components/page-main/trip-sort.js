@@ -1,5 +1,5 @@
 import AbstractComponent from "../abstract-component";
-import {SortType} from "../../helpers/sort";
+import {SortType} from "../../utils/sort";
 
 const createTripSortTemplate = () => {
   return (

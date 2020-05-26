@@ -1,5 +1,5 @@
-import {getISOStringDate} from "../../../helpers/utils";
-import {MONTH_NAMES} from "../../../helpers/const";
+import {getISOStringDate} from "../../../utils/common";
+import {MONTH_NAMES} from "../../../utils/const";
 import AbstractComponent from "../../abstract-component";
 
 const createDayTemplate = (dayTimeStamp = null, count = null) => {

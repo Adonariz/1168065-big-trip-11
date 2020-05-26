@@ -1,4 +1,4 @@
-import {render, RenderPosition} from "./helpers/render";
+import {render, RenderPosition} from "./utils/render";
 import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";
@@ -7,7 +7,6 @@ import TripController from "./controllers/trip-controller";
 import {getRandomEvents} from "./mocks/events";
 
 // Количество моков для рендера
-// const FORM_ID = 1;
 const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
@@ -30,13 +29,6 @@ const renderHeader = () => {
   render(tripControls, tripFiltersComponent, RenderPosition.BEFOREEND);
 };
 
-// Форма редактирования события
-// const renderNewEventForm = (event) => {
-//   const eventEditComponent = new EventEdit(event, FORM_ID);
-//   render(tripEventsContainerChild, eventEditComponent, RenderPosition.AFTEREND);
-// };
-
-// const emptyEvents = [];
 const tripController = new TripController(tripEventsContainer);
 
 renderHeader();
