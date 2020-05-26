@@ -84,6 +84,8 @@ export default class TripController {
       const sortedEvents = sortEvents(events, this._tripSortComponent.getSortType());
       remove(this._tripDaysListComponent);
 
+      this._onViewChange();
+
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
         this._showedPointControllers = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
