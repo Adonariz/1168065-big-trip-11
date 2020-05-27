@@ -10,6 +10,9 @@ import {
 import {getStringDate, formatTime24H, capFirstLetter} from "../../../utils/common";
 import AbstractSmartComponent from "../../abstract-smart-component";
 import {eventOffers, getRandomDestination, getRandomOffers} from "../../../mocks/events";
+import flatpickr from "flatpickr";
+
+import "flatpickr/dist/flatpickr.min.css";
 
 const createEventTypeItemTemplate = (type, isChecked, id) => {
   const eventTypeString = capFirstLetter(type);
@@ -172,6 +175,11 @@ export default class EventEdit extends AbstractSmartComponent {
     this._placeholder = EVENT_TYPE_PREFIX[this._type];
     this._submitHandler = null;
     this._favoriteButtonHandler = null;
+
+    this._flatpickrStart = null;
+    this._flatpickrEnd = null;
+    // this._applyFlatpickr();
+
     this._subscribeOnEvents();
   }
 
@@ -181,6 +189,22 @@ export default class EventEdit extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+
+    this.applyFlatpickr();
+  }
+
+  removeElement() {
+    if (this._flatpickrStart) {
+      this._flatpickrStart.destroy();
+      this._flatpickrStart = null;
+    }
+
+    if (this._flatpickrEnd) {
+      this._flatpickrEnd.destroy();
+      this._flatpickrEnd = null;
+    }
+
+    super.removeElement();
   }
 
   setSubmitHandler(handler) {
@@ -199,6 +223,38 @@ export default class EventEdit extends AbstractSmartComponent {
   recoverListeners() {
     this.setSubmitHandler(this._submitHandler);
     this._subscribeOnEvents();
+  }
+
+  removeFlatpickr() {
+    if (this._flatpickrStart) {
+      this._flatpickrStart.destroy();
+      this._flatpickrStart = null;
+    }
+
+    if (this._flatpickrEnd) {
+      this._flatpickrEnd.destroy();
+      this._flatpickrEnd = null;
+    }
+  }
+
+  applyFlatpickr() {
+    const dateStartInput = this.getElement().querySelector(`[name="event-start-time"]`);
+    this._flatpickrStart = flatpickr(dateStartInput, {
+      enableTime: true,
+      altFormat: `d/m/y H:i`,
+      altInput: true,
+      [`time_24hr`]: true,
+      defaultDate: this._event.date.start,
+    });
+
+    const dateEndInput = this.getElement().querySelector(`[name="event-end-time"]`);
+    this._flatpickrEnd = flatpickr(dateEndInput, {
+      enableTime: true,
+      altFormat: `d/m/y H:i`,
+      altInput: true,
+      [`time_24hr`]: true,
+      defaultDate: this._event.date.end,
+    });
   }
 
   _subscribeOnEvents() {
