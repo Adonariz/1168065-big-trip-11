@@ -226,10 +226,15 @@ export default class EventEdit extends AbstractSmartComponent {
   }
 
   removeFlatpickr() {
-    this._flatpickrStart.destroy();
-    this._flatpickrStart = null;
-    this._flatpickrEnd.destroy();
-    this._flatpickrEnd = null;
+    if (this._flatpickrStart) {
+      this._flatpickrStart.destroy();
+      this._flatpickrStart = null;
+    }
+
+    if (this._flatpickrEnd) {
+      this._flatpickrEnd.destroy();
+      this._flatpickrEnd = null;
+    }
   }
 
   applyFlatpickr() {

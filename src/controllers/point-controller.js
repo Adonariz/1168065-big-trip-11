@@ -1,4 +1,4 @@
-import {render, RenderPosition, replace} from "../utils/render";
+import {remove, render, RenderPosition, replace} from "../utils/render";
 import {ESC_KEY} from "../utils/const";
 import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit";
@@ -49,6 +49,20 @@ export default class PointController {
       replace(this._eventEditComponent, oldEventEditComponent);
     } else {
       render(this._container, this._eventComponent, RenderPosition.BEFOREEND);
+    }
+  }
+
+  destroy() {
+    if (this._eventComponent) {
+      remove(this._eventComponent);
+      this._eventComponent = null;
+    }
+
+    if (this._eventEditComponent) {
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      this._eventEditComponent.removeFlatpickr();
+      remove(this._eventEditComponent);
+      this._eventEditComponent = null;
     }
   }
 

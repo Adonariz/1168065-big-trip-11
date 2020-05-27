@@ -82,9 +82,9 @@ export default class TripController {
 
     this._tripSortComponent.setSortTypeChangeHandler(() => {
       const sortedEvents = sortEvents(events, this._tripSortComponent.getSortType());
-      remove(this._tripDaysListComponent);
 
-      this._onViewChange();
+      this._destroyControllers();
+      remove(this._tripDaysListComponent);
 
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
         render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
@@ -97,6 +97,15 @@ export default class TripController {
 
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     this._showedPointControllers = renderEvents(this._tripDaysListComponent, events, this._onDataChange, this._onViewChange);
+  }
+
+  _destroyControllers() {
+    this._showedPointControllers.forEach((pointController) => {
+      pointController.destroy();
+      pointController = null;
+    });
+
+    this._showedPointControllers = [];
   }
 
   _onDataChange(pointController, oldData, newData) {
