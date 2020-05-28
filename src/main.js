@@ -36,5 +36,5 @@ const renderHeader = () => {
 const tripController = new TripController(tripEventsContainer, pointsModel);
 
 renderHeader();
-tripController.render(randomEvents);
+tripController.render();
 
