@@ -4,6 +4,7 @@ import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";
 import TripFilters from "./components/page-header/trip-filters";
 import TripController from "./controllers/trip-controller";
+import PointsModel from "./models/points";
 import {getRandomEvents} from "./mocks/events";
 
 // Количество моков для рендера
@@ -11,6 +12,9 @@ const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
 const randomEvents = getRandomEvents(POINTS_COUNT);
+
+const pointsModel = new PointsModel();
+pointsModel.setPoints(randomEvents);
 
 const tripMain = document.querySelector(`.trip-main`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
@@ -29,7 +33,7 @@ const renderHeader = () => {
   render(tripControls, tripFiltersComponent, RenderPosition.BEFOREEND);
 };
 
-const tripController = new TripController(tripEventsContainer);
+const tripController = new TripController(tripEventsContainer, pointsModel);
 
 renderHeader();
 tripController.render(randomEvents);
