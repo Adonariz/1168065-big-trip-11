@@ -136,6 +136,7 @@ export default class TripController {
   }
 
   _onFilterChange() {
+    this._tripSortComponent.rerender();
     this._updatePoints();
   }
 }

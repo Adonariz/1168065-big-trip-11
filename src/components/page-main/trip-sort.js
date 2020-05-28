@@ -1,5 +1,5 @@
-import AbstractComponent from "../abstract-component";
 import {SortType} from "../../utils/sort";
+import AbstractSmartComponent from "../abstract-smart-component";
 
 const createTripSortTemplate = () => {
   return (
@@ -36,14 +36,23 @@ const createTripSortTemplate = () => {
   );
 };
 
-export default class TripSort extends AbstractComponent {
+export default class TripSort extends AbstractSmartComponent {
   constructor() {
     super();
 
     this._currentSortType = SortType.DEFAULT;
   }
+
   getTemplate() {
     return createTripSortTemplate();
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  recoverListeners() {
+    this.setSortTypeChangeHandler(this._sortTypeChangeHandler);
   }
 
   getSortType() {
@@ -76,6 +85,7 @@ export default class TripSort extends AbstractComponent {
         }
 
         handler(this._currentSortType);
+        this._sortTypeChangeHandler = handler;
       });
   }
 }
