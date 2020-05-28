@@ -1,6 +1,7 @@
 import {FilterType} from "../utils/const";
 import {render, RenderPosition, replace} from "../utils/render";
 import TripFiltersComponent from "../components/page-header/trip-filters";
+import {getPointsByFilter} from "../utils/filter";
 
 export default class FilterController {
   constructor(container, pointsModel) {
@@ -19,11 +20,13 @@ export default class FilterController {
   render() {
     const container = this._container;
     const oldComponent = this._filterComponent;
+    const allPoints = this._pointsModel.getPointsAll();
 
     const filters = Object.values(FilterType)
       .map((filterType) => {
         return {
           name: filterType,
+          count: getPointsByFilter(allPoints, filterType),
           checked: filterType === this._activeFilterType,
         };
       });

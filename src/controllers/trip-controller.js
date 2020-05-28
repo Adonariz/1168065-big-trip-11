@@ -66,6 +66,7 @@ export default class TripController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
+    this._onFilterChange = this._onFilterChange.bind(this);
   }
 
   render() {
@@ -86,7 +87,7 @@ export default class TripController {
     this._tripSortComponent.setSortTypeChangeHandler(() => {
       const sortedEvents = sortEvents(points, this._tripSortComponent.getSortType());
 
-      this._destroyControllers();
+      this._removePoints();
       remove(this._tripDaysListComponent);
 
       if (this._tripSortComponent.getSortType() === SortType.DEFAULT) {
@@ -102,13 +103,18 @@ export default class TripController {
     this._showedPointControllers = renderEvents(this._tripDaysListComponent, points, this._onDataChange, this._onViewChange);
   }
 
-  _destroyControllers() {
+  _removePoints() {
     this._showedPointControllers.forEach((pointController) => {
       pointController.destroy();
       pointController = null;
     });
 
     this._showedPointControllers = [];
+  }
+
+  _updatePoints() {
+    this._removePoints();
+    this._renderPoints(this._pointsModel.getPoints());
   }
 
   _onDataChange(pointController, oldData, newData) {
@@ -121,5 +127,9 @@ export default class TripController {
 
   _onViewChange() {
     this._showedPointControllers.forEach((pointController) => pointController.setDefaultView());
+  }
+
+  _onFilterChange() {
+    this._updatePoints();
   }
 }

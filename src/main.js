@@ -2,7 +2,7 @@ import {render, RenderPosition} from "./utils/render";
 import TripInfo from "./components/page-header/trip-info";
 import TripRoute from "./components/page-header/trip-route";
 import TripControls from "./components/page-header/trip-controls";
-import TripFilters from "./components/page-header/trip-filters";
+import FilterController from "./controllers/filter-controller";
 import TripController from "./controllers/trip-controller";
 import PointsModel from "./models/points";
 import {getRandomPoints} from "./mocks/points";
@@ -25,16 +25,15 @@ const renderHeader = () => {
   const tripInfoComponent = new TripInfo();
   const tripRouteComponent = new TripRoute();
   const tripControlsComponent = new TripControls();
-  const tripFiltersComponent = new TripFilters();
+  const tripFilterController = new FilterController(tripControls, pointsModel);
 
   render(tripMain, tripInfoComponent, RenderPosition.AFTERBEGIN);
   render(tripInfoComponent.getElement(), tripRouteComponent, RenderPosition.AFTERBEGIN);
   render(tripControls.querySelector(`h2`), tripControlsComponent, RenderPosition.AFTEREND);
-  render(tripControls, tripFiltersComponent, RenderPosition.BEFOREEND);
+  tripFilterController.render();
 };
 
 const tripController = new TripController(tripEventsContainer, pointsModel);
 
 renderHeader();
 tripController.render();
-

@@ -51,7 +51,7 @@ export default class TripFilters extends AbstractSmartComponent {
   }
 
   recoverListeners() {
-    this.setFilterTypeChangeHandler(this._setFilterTypeChangeHandler);
+    this.setFilterChangeHandler(this._setFilterTypeChangeHandler);
   }
 
   rerender() {
@@ -60,7 +60,7 @@ export default class TripFilters extends AbstractSmartComponent {
     this._currentFilterType = FilterType.EVERYTHING;
   }
 
-  setFilterTypeChangeHandler(handler) {
+  setFilterChangeHandler(handler) {
     this._setFilterTypeChangeHandler = handler;
 
     this.getElement().addEventListener(`change`, (evt) => {
