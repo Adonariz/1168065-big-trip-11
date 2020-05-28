@@ -10,4 +10,8 @@ export default class TripDaysList extends AbstractComponent {
   getTemplate() {
     return createDaysList();
   }
+
+  destroy() {
+    this.getElement().innerHTML = ``;
+  }
 }

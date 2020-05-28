@@ -21,9 +21,9 @@ const createTripFiltersMarkup = (name, isChecked) => {
   );
 };
 
-const createTripFiltersTemplate = () => {
+const createTripFiltersTemplate = (currentFilterType) => {
   const filtersMarkup = FILTER_NAMES
-    .map((it) => createTripFiltersMarkup(it, it.checked))
+    .map((it) => createTripFiltersMarkup(it, it === currentFilterType))
     .join(`\n`);
 
   return (
@@ -39,11 +39,11 @@ export default class TripFilters extends AbstractSmartComponent {
     super();
 
     this._currentFilterType = FilterType.EVERYTHING;
-    this._setFilterTypeChangeHandler = null;
+    this._filterTypeChangeHandler = null;
   }
 
   getTemplate() {
-    return createTripFiltersTemplate();
+    return createTripFiltersTemplate(this._currentFilterType);
   }
 
   getFilterType() {
@@ -51,31 +51,36 @@ export default class TripFilters extends AbstractSmartComponent {
   }
 
   recoverListeners() {
-    this.setFilterChangeHandler(this._setFilterTypeChangeHandler);
+    this.setFilterChangeHandler(this._filterTypeChangeHandler);
   }
 
   rerender() {
     super.rerender();
-
-    this._currentFilterType = FilterType.EVERYTHING;
   }
 
   setFilterChangeHandler(handler) {
-    this._setFilterTypeChangeHandler = handler;
+    if (this._filterTypeChangeHandler === null) {
 
-    this.getElement().addEventListener(`change`, (evt) => {
-      evt.preventDefault();
+      this._filterTypeChangeHandler = (evt) => {
+        evt.preventDefault();
 
-      const filterType = evt.target.value;
+        const filterType = evt.target.value;
 
-      if (evt.target.tagName !== `INPUT`
-        || this._currentFilterType === filterType) {
-        return;
-      }
+        if (evt.target.tagName !== `INPUT`
+          || this._currentFilterType === filterType) {
+          return;
+        }
 
-      this._currentFilterType = filterType;
+        this._currentFilterType = filterType;
 
-      this._setFilterTypeChangeHandler(this._currentFilterType);
-    });
+        this.rerender();
+
+        handler(this._currentFilterType);
+      };
+
+      this.getElement().addEventListener(`change`, this._filterTypeChangeHandler);
+    } else {
+      this.getElement().addEventListener(`change`, handler);
+    }
   }
 }

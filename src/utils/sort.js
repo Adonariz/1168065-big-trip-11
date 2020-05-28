@@ -4,55 +4,55 @@ const SortType = {
   PRICE: `sort-price`
 };
 
-const groupEventsByDate = (events) => {
-  const eventsGroup = new Map();
+const groupPointsByDate = (points) => {
+  const pointsGroup = new Map();
 
-  events.forEach((it) => {
-    const startEventDate = new Date(it.date.start);
+  points.forEach((it) => {
+    const pointDateStart = new Date(it.date.start);
 
-    const startDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 0, 0, 0, 0);
-    const endDay = new Date(startEventDate.getFullYear(), startEventDate.getMonth(), startEventDate.getDate(), 23, 59, 59, 999);
+    const startDay = new Date(pointDateStart.getFullYear(), pointDateStart.getMonth(), pointDateStart.getDate(), 0, 0, 0, 0);
+    const endDay = new Date(pointDateStart.getFullYear(), pointDateStart.getMonth(), pointDateStart.getDate(), 23, 59, 59, 999);
 
     const startTimestampDay = startDay.getTime();
     const endTimestampDay = endDay.getTime();
 
-    if (!eventsGroup.has(startTimestampDay)) {
-      const dayEvents = events.filter((event) => {
+    if (!pointsGroup.has(startTimestampDay)) {
+      const dayPoints = points.filter((point) => {
         return (
-          startTimestampDay <= event.date.start.getTime() && event.date.start.getTime() <= endTimestampDay
+          startTimestampDay <= point.date.start.getTime() && point.date.start.getTime() <= endTimestampDay
         );
       });
 
-      eventsGroup.set(startTimestampDay, dayEvents);
+      pointsGroup.set(startTimestampDay, dayPoints);
     }
   });
 
-  return eventsGroup;
+  return pointsGroup;
 };
 
-const sortEvents = (events, sortType) => {
-  let sortedEvents = [];
-  const showingEvents = events.slice();
+const sortPoints = (points, sortType) => {
+  let sortedPoints = [];
+  const showingEvents = points.slice();
 
   switch (sortType) {
     case SortType.DEFAULT:
-      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
+      sortedPoints = showingEvents.sort((a, b) => a.date.start - b.date.start);
       break;
 
     case SortType.TIME:
-      sortedEvents = showingEvents.sort((a, b) => (b.date.end - b.date.start) - (a.date.end - a.date.start));
+      sortedPoints = showingEvents.sort((a, b) => (b.date.end - b.date.start) - (a.date.end - a.date.start));
       break;
 
     case SortType.PRICE:
-      sortedEvents = showingEvents.sort((a, b) => b.price - a.price);
+      sortedPoints = showingEvents.sort((a, b) => b.price - a.price);
       break;
 
     default:
-      sortedEvents = showingEvents.sort((a, b) => a.date.start - b.date.start);
+      sortedPoints = showingEvents.sort((a, b) => a.date.start - b.date.start);
       break;
   }
 
-  return sortedEvents;
+  return sortedPoints;
 };
 
-export {SortType, groupEventsByDate, sortEvents};
+export {SortType, groupPointsByDate, sortPoints};
