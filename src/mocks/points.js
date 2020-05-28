@@ -87,10 +87,10 @@ const getRandomEvent = (index) => {
   };
 };
 
-const getRandomEvents = (count) => {
+const getRandomPoints = (count) => {
   return new Array(count)
     .fill(``)
     .map((randomEvent, index) => getRandomEvent(++index));
 };
 
-export {eventOffers, getRandomOffers, getRandomDestination, getRandomEvent, getRandomEvents};
+export {eventOffers, getRandomOffers, getRandomDestination, getRandomEvent, getRandomPoints};

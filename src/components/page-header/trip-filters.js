@@ -1,6 +1,7 @@
-import AbstractComponent from "../abstract-component";
+import AbstractSmartComponent from "../abstract-smart-component";
+import {FilterType} from "../../utils/const";
 
-const FILTER_NAMES = [`everything`, `future`, `past`];
+const FILTER_NAMES = [FilterType.EVERYTHING, FilterType.FUTURE, FilterType.PAST];
 
 const createTripFiltersMarkup = (name, isChecked) => {
   const checked = `${isChecked ? `checked` : ``}`;
@@ -22,7 +23,7 @@ const createTripFiltersMarkup = (name, isChecked) => {
 
 const createTripFiltersTemplate = () => {
   const filtersMarkup = FILTER_NAMES
-    .map((it, i) => createTripFiltersMarkup(it, i === 0))
+    .map((it) => createTripFiltersMarkup(it, it.checked))
     .join(`\n`);
 
   return (
@@ -33,8 +34,48 @@ const createTripFiltersTemplate = () => {
   );
 };
 
-export default class TripFilters extends AbstractComponent {
+export default class TripFilters extends AbstractSmartComponent {
+  constructor() {
+    super();
+
+    this._currentFilterType = FilterType.EVERYTHING;
+    this._setFilterTypeChangeHandler = null;
+  }
+
   getTemplate() {
     return createTripFiltersTemplate();
+  }
+
+  getFilterType() {
+    return this._currentFilterType;
+  }
+
+  recoverListeners() {
+    this.setFilterTypeChangeHandler(this._setFilterTypeChangeHandler);
+  }
+
+  rerender() {
+    super.rerender();
+
+    this._currentFilterType = FilterType.EVERYTHING;
+  }
+
+  setFilterTypeChangeHandler(handler) {
+    this._setFilterTypeChangeHandler = handler;
+
+    this.getElement().addEventListener(`change`, (evt) => {
+      evt.preventDefault();
+
+      const filterType = evt.target.value;
+
+      if (evt.target.tagName !== `INPUT`
+        || this._currentFilterType === filterType) {
+        return;
+      }
+
+      this._currentFilterType = filterType;
+
+      this._setFilterTypeChangeHandler(this._currentFilterType);
+    });
   }
 }

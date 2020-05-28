@@ -5,13 +5,13 @@ import TripControls from "./components/page-header/trip-controls";
 import TripFilters from "./components/page-header/trip-filters";
 import TripController from "./controllers/trip-controller";
 import PointsModel from "./models/points";
-import {getRandomEvents} from "./mocks/events";
+import {getRandomPoints} from "./mocks/points";
 
 // Количество моков для рендера
 const POINTS_COUNT = 15;
 
 // Получаем отсортированные эвенты
-const randomEvents = getRandomEvents(POINTS_COUNT);
+const randomEvents = getRandomPoints(POINTS_COUNT);
 
 const pointsModel = new PointsModel();
 pointsModel.setPoints(randomEvents);

@@ -9,7 +9,7 @@ import {
 } from "../../../utils/const";
 import {getStringDate, formatTime24H, capFirstLetter} from "../../../utils/common";
 import AbstractSmartComponent from "../../abstract-smart-component";
-import {eventOffers, getRandomDestination, getRandomOffers} from "../../../mocks/events";
+import {eventOffers, getRandomDestination, getRandomOffers} from "../../../mocks/points";
 import flatpickr from "flatpickr";
 
 import "flatpickr/dist/flatpickr.min.css";

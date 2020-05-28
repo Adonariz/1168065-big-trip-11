@@ -1,6 +1,6 @@
-const ESC_KEY = `Escape`;
+export const ESC_KEY = `Escape`;
 
-const MONTH_NAMES = [
+export const MONTH_NAMES = [
   `JAN`,
   `FEB`,
   `MAR`,
@@ -15,9 +15,9 @@ const MONTH_NAMES = [
   `DEC`,
 ];
 
-const CITIES = [`London`, `Berlin`, `Moscow`, `Kiev`, `Paris`, `Amsterdam`, `Oslo`];
+export const CITIES = [`London`, `Berlin`, `Moscow`, `Kiev`, `Paris`, `Amsterdam`, `Oslo`];
 
-const STRINGS = [
+export const STRINGS = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.`,
@@ -30,7 +30,7 @@ const STRINGS = [
   `In rutrum ac purus sit amet tempus.`
 ];
 
-const EventType = {
+export const EventType = {
   TAXI: `taxi`,
   BUS: `bus`,
   TRAIN: `train`,
@@ -43,10 +43,10 @@ const EventType = {
   RESTAURANT: `restaurant`,
 };
 
-const TRANSFER_TYPES = [EventType.TAXI, EventType.BUS, EventType.TRAIN, EventType.SHIP, EventType.TRANSPORT, EventType.DRIVE, EventType.FLIGHT];
-const ACTIVITY_TYPES = [EventType.CHECK_IN, EventType.SIGHTSEEING, EventType.RESTAURANT];
+export const TRANSFER_TYPES = [EventType.TAXI, EventType.BUS, EventType.TRAIN, EventType.SHIP, EventType.TRANSPORT, EventType.DRIVE, EventType.FLIGHT];
+export const ACTIVITY_TYPES = [EventType.CHECK_IN, EventType.SIGHTSEEING, EventType.RESTAURANT];
 
-const EVENT_TYPE_PREFIX = {
+export const EVENT_TYPE_PREFIX = {
   [EventType.TAXI]: `Taxi to `,
   [EventType.BUS]: `Bus to `,
   [EventType.TRAIN]: `Train to `,
@@ -59,7 +59,7 @@ const EVENT_TYPE_PREFIX = {
   [EventType.RESTAURANT]: `Restaurant in `
 };
 
-const OFFER_NAME = {
+export const OFFER_NAME = {
   'event-offer-luggage': `Add luggage`,
   'event-offer-comfort': `Switch to comfort class`,
   'event-offer-meal': `Add meal`,
@@ -67,7 +67,7 @@ const OFFER_NAME = {
   'event-offer-train': `Travel by train`
 };
 
-const OFFER_PRICE = {
+export const OFFER_PRICE = {
   'event-offer-luggage': 30,
   'event-offer-comfort': 100,
   'event-offer-meal': 15,
@@ -75,4 +75,8 @@ const OFFER_PRICE = {
   'event-offer-train': 40
 };
 
-export {ESC_KEY, MONTH_NAMES, CITIES, STRINGS, TRANSFER_TYPES, ACTIVITY_TYPES, EVENT_TYPE_PREFIX, OFFER_NAME, OFFER_PRICE};
+export const FilterType = {
+  EVERYTHING: `everything`,
+  FUTURE: `future`,
+  PAST: `past`,
+};
