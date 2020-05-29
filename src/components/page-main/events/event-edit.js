@@ -165,6 +165,17 @@ const createEventEditTemplate = (event) => {
   );
 };
 
+const parseFormData = (formData) => {
+  return {
+    date: {
+      start: formData.get(`event-start-time`),
+      end: formData.get(`event-end-time`),
+    },
+    city: formData.get(`event-destination`),
+    price: formData.get(`event-price`),
+  };
+};
+
 export default class EventEdit extends AbstractSmartComponent {
   constructor(event) {
     super();
@@ -175,10 +186,10 @@ export default class EventEdit extends AbstractSmartComponent {
     this._placeholder = EVENT_TYPE_PREFIX[this._type];
     this._submitHandler = null;
     this._favoriteButtonHandler = null;
+    this._deleteButtonClickHandler = null;
 
     this._flatpickrStart = null;
     this._flatpickrEnd = null;
-    // this._applyFlatpickr();
 
     this._subscribeOnEvents();
   }
@@ -193,16 +204,15 @@ export default class EventEdit extends AbstractSmartComponent {
     this.applyFlatpickr();
   }
 
-  removeElement() {
-    if (this._flatpickrStart) {
-      this._flatpickrStart.destroy();
-      this._flatpickrStart = null;
-    }
+  getData() {
+    const form = this.getElement();
+    const formData = new FormData(form);
 
-    if (this._flatpickrEnd) {
-      this._flatpickrEnd.destroy();
-      this._flatpickrEnd = null;
-    }
+    return parseFormData(formData);
+  }
+
+  removeElement() {
+    this.removeFlatpickr();
 
     super.removeElement();
   }
@@ -220,8 +230,16 @@ export default class EventEdit extends AbstractSmartComponent {
       .addEventListener(`click`, this._favoriteButtonHandler);
   }
 
+  setDeleteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.event__reset-btn`)
+      .addEventListener(`click`, handler);
+
+    this._deleteButtonClickHandler = handler;
+  }
+
   recoverListeners() {
     this.setSubmitHandler(this._submitHandler);
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
     this._subscribeOnEvents();
   }
 

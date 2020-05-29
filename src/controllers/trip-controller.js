@@ -27,7 +27,7 @@ const renderTripDayItem = (tripDaysListComponent, events, onDataChange, onViewCh
 const renderTripDayEventsItem = (eventsListItem, events, onDataChange, onViewChange) => {
   return events.map((event) => {
     const pointController = new PointController(eventsListItem, onDataChange, onViewChange);
-    pointController.render(event);
+    pointController.render(event, PoinControllerMode.DEFAULT);
 
     return pointController;
   });
