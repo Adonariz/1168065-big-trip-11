@@ -3,17 +3,19 @@ import {ESC_KEY} from "../utils/const";
 import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit";
 
-const ViewMode = {
+export const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
 };
+
+export const EmptyPoint = {};
 
 export default class PointController {
   constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
-    this._viewMode = ViewMode.DEFAULT;
+    this._viewMode = Mode.DEFAULT;
 
     this._eventComponent = null;
     this._eventEditComponent = null;
@@ -67,7 +69,7 @@ export default class PointController {
   }
 
   setDefaultView() {
-    if (this._viewMode !== ViewMode.DEFAULT) {
+    if (this._viewMode !== Mode.DEFAULT) {
       this._replaceEditToEvent();
     }
   }
@@ -75,14 +77,14 @@ export default class PointController {
   _replaceEditToEvent() {
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     replace(this._eventComponent, this._eventEditComponent);
-    this._viewMode = ViewMode.DEFAULT;
+    this._viewMode = Mode.DEFAULT;
     this._eventEditComponent.removeFlatpickr();
   }
 
   _replaceEventToEdit() {
     this._onViewChange();
     replace(this._eventEditComponent, this._eventComponent);
-    this._viewMode = ViewMode.EDIT;
+    this._viewMode = Mode.EDIT;
     this._eventEditComponent.applyFlatpickr();
   }
 

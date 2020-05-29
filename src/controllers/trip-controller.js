@@ -6,7 +6,7 @@ import EventsListItem from "../components/page-main/events/events-list-item";
 import NoEvents from "../components/page-main/events/no-events";
 import TripSort from "../components/page-main/trip-sort";
 import TripDaysList from "../components/page-main/days/trip-days-list";
-import PointController from "./point-controller";
+import PointController, {Mode as PoinControllerMode, EmptyPoint} from "./point-controller";
 
 // Отрисовка контейнера для группировки по дням
 const renderTripDayItem = (tripDaysListComponent, events, onDataChange, onViewChange, dayTimeStamp = null, count = null) => {
@@ -124,10 +124,26 @@ export default class TripController {
   }
 
   _onDataChange(pointController, oldData, newData) {
-    const isSuccess = this._pointsModel.updatePoint(oldData.id, newData);
+    if (oldData === EmptyPoint) {
+      this._creatingPoint = null;
+      if (newData === null) {
+        pointController.destroy();
+        this._updatePoints();
+      } else {
+        this._pointsModel.addPoint(newData);
+        pointController.render(newData, PoinControllerMode.DEFAULT);
 
-    if (isSuccess) {
-      pointController.render(newData);
+        this._showedPointControllers = [].concat(pointController, this._showedPointControllers);
+      }
+    } else if (newData === null) {
+      this._pointsModel.removePoint(oldData.id);
+      this._updatePoints();
+    } else {
+      const isSuccess = this._pointsModel.updatePoint(oldData.id, newData);
+
+      if (isSuccess) {
+        pointController.render(newData);
+      }
     }
   }
 
