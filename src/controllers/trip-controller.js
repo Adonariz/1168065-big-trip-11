@@ -59,6 +59,7 @@ export default class TripController {
     this._pointsModel = pointsModel;
 
     this._showedPointControllers = [];
+    this._creatingTask = null;
 
     this._noEventsComponent = new NoEvents();
     this._tripSortComponent = new TripSort();
@@ -86,6 +87,13 @@ export default class TripController {
     render(tripSectionFirstChild, this._tripSortComponent, RenderPosition.AFTEREND);
     render(this._container, this._tripDaysListComponent, RenderPosition.BEFOREEND);
     this._renderPoints(points);
+  }
+
+  createTask() {
+    if (this._creatingTask) {
+      return;
+    }
+
   }
 
   _renderPoints(points) {

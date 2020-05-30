@@ -4,6 +4,7 @@ import EventItem from "../components/page-main/events/event-item";
 import EventEdit from "../components/page-main/events/event-edit";
 
 export const Mode = {
+  ADD: `add`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };
@@ -24,9 +25,11 @@ export default class PointController {
   }
 
   render(event, mode) {
+    this._mode = mode;
+
     const oldEventComponent = this._eventComponent;
     const oldEventEditComponent = this._eventEditComponent;
-    this._mode = mode;
+
 
     this._eventComponent = new EventItem(event);
     this._eventEditComponent = new EventEdit(event);
